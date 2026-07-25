@@ -2,9 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { getShop, shopMetafield } from "@/lib/queries/shop";
 import { localePath } from "@/lib/utils/urls";
 import type { Locale } from "@/i18n/routing";
-import dynamic from "next/dynamic";
-
-const HeroCarousel = dynamic(() => import("./HeroCarousel"), { ssr: false });
+import HeroCarousel from "./HeroCarousel";
 
 export default async function HeroShell({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: "Hero" });
@@ -23,7 +21,7 @@ export default async function HeroShell({ locale }: { locale: Locale }) {
       title: title,
       subtitle: subtitle,
       ctaPrimary: { label: ctaPrimary, href: localePath(locale, "shop") },
-      ctaSecondary: { label: ctaSecondary, href: localePath(locale, "collections") },
+      ctaSecondary: { label: locale === "ar" ? "كل الأصناف" : "All Categories", href: localePath(locale, "shop") },
       bgColorClass: "bg-gradient-to-br from-brand-orange/20 via-brand-gold to-brand-amber/20"
     },
     {

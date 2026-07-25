@@ -16,6 +16,8 @@ import { localePath } from "@/lib/utils/urls";
 import Link from "next/link";
 import type { Locale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import CategoryMarquee from "@/components/CategoryMarquee";
+import SocialFab from "@/components/SocialFab";
 
 export const revalidate = 60;
 
@@ -54,6 +56,7 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
 
   return (
     <>
+      <CategoryMarquee />
       <HeroShell locale={locale} />
 
       <TrustStrip badges={trustBadges} />
@@ -145,6 +148,8 @@ export default async function HomePage({ params }: { params: { locale: Locale } 
           />
         </div>
       </section>
+
+      <SocialFab />
     </>
   );
 }

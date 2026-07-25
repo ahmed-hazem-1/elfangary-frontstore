@@ -38,10 +38,15 @@ export default async function ShopPage({
 
   const sortKey = SORT_MAP[searchParams.sort || "featured"] || "RELEVANCE";
   const reverse = searchParams.sort === "price_high";
-  let query = searchParams.type ? `product_type:${searchParams.type}` : undefined;
-  if (searchParams.available === "true") {
-    query = query ? `${query} AND available_for_sale:true` : "available_for_sale:true";
-  }
+  const conditions = [];
+  if (searchParams.type) conditions.push(`product_type:${searchParams.type}`);
+  if (searchParams.available === "true") conditions.push(`available_for_sale:true`);
+  if (searchParams.q) conditions.push(`title:*${searchParams.q}*`);
+  if (searchParams.minPrice) conditions.push(`variants.price:>=${searchParams.minPrice}`);
+  if (searchParams.maxPrice) conditions.push(`variants.price:<=${searchParams.maxPrice}`);
+  if (searchParams.offers === "true") conditions.push(`is_price_reduced:true`);
+
+  const query = conditions.length > 0 ? conditions.join(" AND ") : undefined;
 
   const data = await getProducts({
     first: 24,
@@ -78,6 +83,15 @@ export default async function ShopPage({
             inStock: tCommon("inStock"),
             all: locale === "ar" ? "الكل" : "All",
             apply: t("sort"),
+            search: locale === "ar" ? "بحث عن منتج..." : "Search products...",
+            minPrice: locale === "ar" ? "الحد الأدنى" : "Min",
+            maxPrice: locale === "ar" ? "الحد الأقصى" : "Max",
+            offersOnly: locale === "ar" ? "العروض فقط" : "Offers Only",
+            sortBy: locale === "ar" ? "الترتيب" : "Sort By",
+            featured: locale === "ar" ? "المميزة" : "Featured",
+            priceLow: locale === "ar" ? "السعر: الأقل للأعلى" : "Price: Low to High",
+            priceHigh: locale === "ar" ? "السعر: الأعلى للأقل" : "Price: High to Low",
+            newest: locale === "ar" ? "الأحدث" : "Newest",
           }}
           types={types}
         />

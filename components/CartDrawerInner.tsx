@@ -14,7 +14,7 @@ export default function CartDrawerInner({ locale, labels }: {
   labels: { subtotal: string; checkout: string; empty: string; title: string; quantity: string; remove: string };
 }) {
   const [pending, startTransition] = useTransition();
-  const { lines, totalQuantity, cost, discountCodes, checkoutUrl, setCart } = useCartStore(
+  const { lines, totalQuantity, cost, discountCodes, checkoutUrl, setCart, closeDrawer } = useCartStore(
     useShallow((s) => ({
       lines: s.lines,
       totalQuantity: s.totalQuantity,
@@ -22,6 +22,7 @@ export default function CartDrawerInner({ locale, labels }: {
       discountCodes: s.discountCodes,
       checkoutUrl: s.checkoutUrl,
       setCart: s.setCart,
+      closeDrawer: s.closeDrawer,
     }))
   );
   const currency = cost?.totalAmount?.currencyCode || lines[0]?.merchandise?.price?.currencyCode || "SAR";
@@ -116,11 +117,14 @@ export default function CartDrawerInner({ locale, labels }: {
           </span>
         </div>
         <button
-          onClick={() => router.push(`${locale === "en" ? "/en" : ""}/cart`)}
+          onClick={() => {
+            closeDrawer();
+            router.push(`${locale === "en" ? "/en" : ""}/cart`);
+          }}
           className="btn-primary w-full"
           disabled={pending}
         >
-          {labels.title}
+          {labels.checkout}
         </button>
       </div>
     </div>
