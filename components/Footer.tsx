@@ -5,6 +5,7 @@ import { getShop, shopMetafield } from "@/lib/queries/shop";
 import { localePath } from "@/lib/utils/urls";
 import type { Locale } from "@/i18n/routing";
 import { Facebook, Instagram, Twitter, Phone, Mail, MapPin } from "lucide-react";
+import Logo from "./Logo";
 
 export default async function Footer({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: "Footer" });
@@ -36,11 +37,11 @@ export default async function Footer({ locale }: { locale: Locale }) {
     <footer className="mt-16 bg-brand-amber text-white">
       <div className="section grid gap-10 py-12 md:grid-cols-4">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2">
-            <span className="rounded-btn bg-brand-orange px-3 py-1.5 font-arabic text-lg font-bold">
+          <div className="flex items-center gap-3">
+            <Logo className="h-10 w-10" />
+            <span className="font-arabic text-2xl font-bold text-white">
               {tCommon("brand")}
             </span>
-            <span className="text-sm tracking-wide text-white/70">{tCommon("brandLatin")}</span>
           </div>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80">{t("statement")}</p>
           <div className="mt-5 flex gap-2">

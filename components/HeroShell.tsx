@@ -1,11 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import FloatingProductCard from "./FloatingProductCard";
 import { getShop, shopMetafield } from "@/lib/queries/shop";
-import { getProductByHandle } from "@/lib/queries/products";
 import { localePath } from "@/lib/utils/urls";
 import type { Locale } from "@/i18n/routing";
+import dynamic from "next/dynamic";
+
+const HeroCarousel = dynamic(() => import("./HeroCarousel"), { ssr: false });
 
 export default async function HeroShell({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: "Hero" });
@@ -15,46 +14,35 @@ export default async function HeroShell({ locale }: { locale: Locale }) {
   const subtitle = shopMetafield(shop, "hero_subtext") || t("subtitle");
   const ctaPrimary = shopMetafield(shop, "hero_cta_primary") || t("ctaPrimary");
   const ctaSecondary = shopMetafield(shop, "hero_cta_secondary") || t("ctaSecondary");
-  const featuredHandle = shopMetafield(shop, "featured_product_handle");
-  const featuredProduct = featuredHandle ? await getProductByHandle(featuredHandle) : null;
 
-  return (
-    <section className="section mt-4 sm:mt-6 lg:mt-8">
-      <div className="container-shell relative overflow-hidden rounded-shell p-6 sm:p-10 lg:p-16">
-        {heroImage ? (
-          <Image
-            src={heroImage}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-40 mix-blend-overlay"
-          />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/20 via-brand-gold to-brand-amber/20" />
-        )}
-        <div className="absolute inset-0 bg-white/40" />
+  const slides = [
+    {
+      id: "main",
+      image: heroImage,
+      pill: t("ctaPrimary") === "Shop Now" ? "100% Natural Honey" : "عسل طبيعي ١٠٠٪",
+      title: title,
+      subtitle: subtitle,
+      ctaPrimary: { label: ctaPrimary, href: localePath(locale, "shop") },
+      ctaSecondary: { label: ctaSecondary, href: localePath(locale, "collections") },
+      bgColorClass: "bg-gradient-to-br from-brand-orange/20 via-brand-gold to-brand-amber/20"
+    },
+    {
+      id: "offer1",
+      pill: locale === "ar" ? "عروض خاصة" : "Special Offers",
+      title: locale === "ar" ? "عرض الأسبوع: خصم مميز" : "Offer of the Week: Special Discount",
+      subtitle: locale === "ar" ? "اكتشف أفضل الخصومات على تشكيلة العسل الطبيعي الفاخر لدينا. جودة عالية بأسعار لا تفوت!" : "Discover the best discounts on our premium natural honey collection. Top quality at unmissable prices!",
+      ctaPrimary: { label: locale === "ar" ? "تسوق العروض" : "Shop Offers", href: localePath(locale, "shop") },
+      bgColorClass: "bg-brand-gold"
+    },
+    {
+      id: "benefits",
+      pill: locale === "ar" ? "جودة مضمونة" : "Guaranteed Quality",
+      title: locale === "ar" ? "عسل طبيعي ومختبري" : "Natural & Lab Tested",
+      subtitle: locale === "ar" ? "جميع منتجاتنا مفحوصة مخبرياً لضمان خلوها من الإضافات ومطابقتها لأعلى معايير الجودة." : "All our products are lab-tested to ensure they are free of additives and meet the highest quality standards.",
+      ctaPrimary: { label: locale === "ar" ? "اكتشف الجودة" : "Discover Quality", href: localePath(locale, "about") },
+      bgColorClass: "bg-brand-orange/10"
+    }
+  ];
 
-        <div className="relative z-10 grid items-center gap-12 py-12 sm:py-20 lg:grid-cols-2 lg:gap-16">
-          <div className="max-w-xl">
-            <span className="pill mb-6 text-brand-orange border-brand-orange/20">
-              {t("ctaPrimary") === "Shop Now" ? "100% Natural Honey" : "عسل طبيعي ١٠٠٪"}
-            </span>
-            <h1 className="text-3xl font-semibold tracking-tight leading-tight text-ink-dark sm:text-4xl lg:text-5xl">{title}</h1>
-            <p className="mt-5 text-base leading-relaxed text-ink-muted sm:text-lg">{subtitle}</p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link href={localePath(locale, "shop")} className="btn-primary">{ctaPrimary}</Link>
-              <Link href={localePath(locale, "collections")} className="btn-secondary">{ctaSecondary}</Link>
-            </div>
-          </div>
-
-          {featuredProduct && (
-            <div className="flex justify-center lg:justify-end">
-              <FloatingProductCard product={featuredProduct} locale={locale} />
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-  );
+  return <HeroCarousel slides={slides} locale={locale} />;
 }

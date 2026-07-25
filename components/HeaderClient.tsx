@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Menu, Search, ShoppingBag, User } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import LocaleSwitcher from "./LocaleSwitcher";
+import Logo from "./Logo";
 import type { Locale } from "@/i18n/routing";
 
 interface NavItem {
@@ -44,12 +45,10 @@ export default function HeaderClient({
   return (
     <header className="container-shell sticky top-0 z-40 mx-auto w-full border-b border-ink-dark/5 bg-white/95 backdrop-blur-xl px-4 py-3 sm:px-8 shadow-sm">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4">
-        <Link href={locale === "en" ? "/en" : "/"} className="flex items-center gap-2 group">
-          <span className="text-xl font-bold tracking-tight text-ink-dark group-hover:text-brand-orange transition-colors">
+        <Link href={locale === "en" ? "/en" : "/"} className="flex items-center gap-2.5 group">
+          <Logo className="h-9 w-9" />
+          <span className="text-2xl font-bold tracking-tight text-ink-dark group-hover:text-brand-orange transition-colors mt-1 font-arabic">
             {brand}
-          </span>
-          <span className="hidden text-xs font-semibold tracking-widest text-ink-muted sm:inline uppercase mt-1">
-            {brandLatin}
           </span>
         </Link>
 
