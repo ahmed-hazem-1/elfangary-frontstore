@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-orange: #E86F00;
+  --cream: #F9F9F9;
+  --honey-gold: #FFFFFF;
+  --warm-amber: #F2F2F2;
+  --olive-accent: #000000;
+  --text-dark: #111111;
+  --text-muted: #666666;
+  --glass-border: rgba(0, 0, 0, 0.06);
+}
+
+@layer base {
+  * {
+    @apply border-ink-dark/5;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-white text-ink-dark font-sans antialiased;
+    min-height: 100vh;
+    letter-spacing: -0.02em;
+  }
+  [dir="rtl"] body {
+    @apply font-arabic;
+    letter-spacing: 0;
+  }
+  ::selection {
+    background: rgba(232, 111, 0, 0.15);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-btn px-6 h-11 font-medium tracking-normal
+           transition-all duration-400 ease-buttery disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-ink-dark text-white hover:bg-black hover:shadow-soft active:scale-95;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-ink-dark border border-ink-dark/10 shadow-sm hover:bg-ink-dark/5 hover:border-ink-dark/20 active:scale-95;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-ink-dark hover:bg-ink-dark/5 active:scale-95;
+  }
+  .card {
+    @apply rounded-card bg-white shadow-soft border border-ink-dark/5 transition-all duration-400 ease-buttery hover:shadow-card hover:-translate-y-0.5;
+  }
+  .cream-card {
+    @apply rounded-card shadow-soft border border-ink-dark/5 bg-brand-gold text-ink-dark;
+  }
+  .input-field {
+    @apply h-11 w-full rounded-btn border border-ink-dark/10 bg-white px-4 text-ink-dark
+           outline-none transition-all duration-400 ease-buttery placeholder:text-ink-muted
+           focus:ring-2 focus:ring-ink-dark/10 focus:border-ink-dark focus:bg-white;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold tracking-wider uppercase
+           bg-white border border-ink-dark/10 text-ink-dark shadow-sm;
+  }
+  .section {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+  .container-shell {
+    @apply rounded-shell border border-ink-dark/5 bg-brand-gold;
+  }
+}
