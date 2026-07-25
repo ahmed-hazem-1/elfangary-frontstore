@@ -48,19 +48,19 @@ export default function FilterSidebar({
 
   // Debounce text/number inputs
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (q !== (searchParams.get("q") || "")) update("q", q);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [q, searchParams]);
+    const t = setTimeout(() => update("q", q), 500);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (minPrice !== (searchParams.get("minPrice") || "")) update("minPrice", minPrice);
-      if (maxPrice !== (searchParams.get("maxPrice") || "")) update("maxPrice", maxPrice);
-    }, 800);
-    return () => clearTimeout(timer);
-  }, [minPrice, maxPrice, searchParams]);
+    const t = setTimeout(() => {
+      update("minPrice", minPrice);
+      update("maxPrice", maxPrice);
+    }, 500);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minPrice, maxPrice]);
 
   return (
     <aside className={`card sticky top-24 h-fit w-full max-w-xs space-y-6 p-5 shrink-0 transition-opacity duration-300 ${isPending ? "opacity-60 pointer-events-none" : "opacity-100"}`}>

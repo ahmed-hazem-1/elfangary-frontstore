@@ -29,7 +29,16 @@ export default async function ShopPage({
   searchParams,
 }: {
   params: { locale: Locale };
-  searchParams: { cursor?: string; sort?: string; type?: string; available?: string };
+  searchParams: { 
+    cursor?: string; 
+    sort?: string; 
+    type?: string; 
+    available?: string;
+    q?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    offers?: string;
+  };
 }) {
   const { locale } = params;
   unstable_setRequestLocale(locale);
