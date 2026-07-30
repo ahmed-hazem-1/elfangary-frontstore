@@ -1,12 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
-import type { Product } from "@/types/shopify";
+import { Star, Plus, Minus } from "lucide-react";
+import type { Product, CartLine } from "@/types/shopify";
 import { formatPriceRange } from "@/lib/utils/formatCurrency";
 import { localePath } from "@/lib/utils/urls";
 import type { Locale } from "@/i18n/routing";
-import QuickAddToCart from "./QuickAddToCart";
-
+import { useCartStore } from "@/store/cartStore";
+import { addToCartAction, updateLineAction, removeLineAction } from "@/app/actions/cart";
 export default function ProductCard({ product, locale, labels }: {
   product: Product;
   locale: Locale;
@@ -21,6 +23,68 @@ export default function ProductCard({ product, locale, labels }: {
   const hasDiscount = compareAt && Number(compareAt.amount) > Number(product.priceRange?.minVariantPrice?.amount || 0);
   const img = product.featuredImage;
   const variantId = product.variants?.edges?.[0]?.node?.id;
+
+  const setCart = useCartStore((s) => s.setCart);
+  const lines = useCartStore((s) => s.lines);
+  const cartLine = lines.find((l) => l.merchandise.id === variantId);
+  const quantity = cartLine ? cartLine.quantity : 0;
+
+  const handleAdd = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!product.availableForSale || !variantId) return;
+
+    // Optimistic store update
+    const prevLines = [...lines];
+    useCartStore.getState().setLines([...prevLines, { 
+      id: "temp-" + variantId, 
+      quantity: 1, 
+      merchandise: { 
+        id: variantId,
+        title: product.title,
+        product: { title: product.title },
+        image: img,
+        price: product.priceRange?.minVariantPrice || { amount: "0", currencyCode: "SAR" }
+      }
+    } as unknown as CartLine]);
+
+    const updatedCart = await addToCartAction(variantId, 1);
+    if (updatedCart) {
+      setCart(updatedCart);
+    } else {
+      useCartStore.getState().setLines(prevLines);
+    }
+  };
+
+  const handleUpdate = async (e: React.MouseEvent, newQuantity: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!cartLine) return;
+
+    // Optimistic store update
+    const prevLines = [...lines];
+    const newLines = [...lines];
+    const lineIndex = newLines.findIndex(l => l.id === cartLine.id);
+    if (newQuantity === 0) {
+      newLines.splice(lineIndex, 1);
+    } else {
+      newLines[lineIndex] = { ...newLines[lineIndex], quantity: newQuantity };
+    }
+    useCartStore.getState().setLines(newLines);
+
+    let updatedCart;
+    if (newQuantity === 0) {
+      updatedCart = await removeLineAction(cartLine.id);
+    } else {
+      updatedCart = await updateLineAction(cartLine.id, newQuantity);
+    }
+    
+    if (updatedCart) {
+      setCart(updatedCart);
+    } else {
+      useCartStore.getState().setLines(prevLines);
+    }
+  };
 
   return (
     <Link
@@ -66,9 +130,35 @@ export default function ProductCard({ product, locale, labels }: {
           )}
         </div>
         
-        {variantId && (
-          <div className="shrink-0">
-            <QuickAddToCart variantId={variantId} availableForSale={product.availableForSale} />
+        {variantId && product.availableForSale && (
+          <div className="shrink-0" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            {quantity > 0 ? (
+              <div className="flex items-center justify-between rounded-full bg-brand-orange text-white p-1 shadow-premium w-24 h-9 relative z-20 transition-all duration-300 group-hover:bg-white group-hover:text-brand-orange">
+                <button 
+                  onClick={(e) => handleUpdate(e, quantity - 1)}
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 group-hover:bg-brand-orange/10 group-hover:hover:bg-brand-orange/20 transition-colors"
+                >
+                  <Minus className="h-4 w-4" />
+                </button>
+                <span className="text-sm font-semibold w-6 text-center">
+                  {quantity}
+                </span>
+                <button 
+                  onClick={(e) => handleUpdate(e, quantity + 1)}
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 group-hover:bg-brand-orange/10 group-hover:hover:bg-brand-orange/20 transition-colors"
+                >
+                  <Plus className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handleAdd}
+                className="flex h-9 items-center justify-center rounded-full bg-brand-orange px-4 text-sm font-semibold text-white shadow-premium transition-colors relative z-20 group-hover:bg-white group-hover:text-brand-orange"
+                aria-label={labels.addToCart}
+              >
+                {labels.addToCart || "Add"}
+              </button>
+            )}
           </div>
         )}
       </div>

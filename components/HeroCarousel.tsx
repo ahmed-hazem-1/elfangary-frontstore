@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 
 type Slide = {
@@ -20,71 +19,134 @@ type Slide = {
 
 export default function HeroCarousel({ slides, locale }: { slides: Slide[]; locale: Locale }) {
   const [current, setCurrent] = useState(0);
-
+  const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => {
+      setDirection(1);
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(timer);
   }, [slides.length, isPaused]);
 
-  const next = () => setCurrent((p) => (p + 1) % slides.length);
-  const prev = () => setCurrent((p) => (p - 1 + slides.length) % slides.length);
+  const next = () => {
+    setDirection(1);
+    setCurrent((p) => (p + 1) % slides.length);
+  };
+  const prev = () => {
+    setDirection(-1);
+    setCurrent((p) => (p - 1 + slides.length) % slides.length);
+  };
+
+  const variants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? (locale === "ar" ? "-100%" : "100%") : (locale === "ar" ? "100%" : "-100%"),
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (dir: number) => ({
+      zIndex: 0,
+      x: dir < 0 ? (locale === "ar" ? "-100%" : "100%") : (locale === "ar" ? "100%" : "-100%"),
+      opacity: 0,
+    }),
+  };
 
   return (
     <section className="mt-2 sm:mt-4">
       {/* Premium Hero Container */}
       <div 
-        className="relative mx-auto w-full max-w-[1920px] overflow-hidden sm:rounded-3xl sm:px-4 lg:px-8 h-[70vh] min-h-[400px] sm:h-[75vh] sm:min-h-[500px] lg:h-[85vh] lg:min-h-[700px] shadow-sm bg-ink-dark/5"
+        className="relative mx-auto w-full max-w-[1920px] overflow-hidden sm:rounded-3xl sm:px-4 lg:px-8 h-[calc(100vh-120px)] min-h-[350px] sm:min-h-[400px] lg:min-h-[450px] shadow-sm bg-ink-dark/5"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         
-        <AnimatePresence mode="popLayout" initial={false}>
+        <AnimatePresence initial={false} custom={direction}>
           <motion.div
-            key={current}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className={`absolute inset-0 flex flex-col justify-center px-4 sm:px-12 lg:px-24 ${slides[current].bgColorClass || 'bg-white'}`}
+            key={current + "-bg"}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 }
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = Math.abs(offset.x) * velocity.x;
+              if (swipe < -10000 || offset.x < -50) {
+                locale === 'ar' ? prev() : next();
+              } else if (swipe > 10000 || offset.x > 50) {
+                locale === 'ar' ? next() : prev();
+              }
+            }}
+            className={`absolute inset-0 cursor-grab active:cursor-grabbing ${slides[current].bgColorClass || 'bg-white'}`}
           >
-            {slides[current].image ? (
+            {slides[current].image && (
               <Image
-                src={slides[current].image!}
+                src={slides[current].image}
                 alt=""
                 fill
                 priority
                 sizes="100vw"
                 className="object-cover opacity-60 mix-blend-multiply"
               />
-            ) : null}
-            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/50 to-transparent" />
-            <div className="absolute inset-0 bg-white/20 backdrop-blur-[2px]" />
+            )}
+          </motion.div>
+        </AnimatePresence>
 
-            <div className="relative z-10 w-full max-w-3xl mx-auto text-center flex flex-col items-center mt-12 lg:mt-0">
+        <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-t from-white/90 via-white/50 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 z-[5] bg-white/20 backdrop-blur-[2px]" />
+
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.div
+            key={current + "-text"}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = Math.abs(offset.x) * velocity.x;
+              if (swipe < -10000 || offset.x < -50) {
+                locale === 'ar' ? prev() : next();
+              } else if (swipe > 10000 || offset.x > 50) {
+                locale === 'ar' ? next() : prev();
+              }
+            }}
+            className="absolute inset-0 z-10 flex flex-col justify-center px-4 sm:px-12 lg:px-24 pointer-events-none"
+          >
+            <div className="relative w-full max-w-3xl mx-auto text-center flex flex-col items-center mt-12 lg:mt-0 pointer-events-auto cursor-grab active:cursor-grabbing">
               {slides[current].pill && (
-                <span className="pill mb-6 lg:mb-8 text-brand-orange border-brand-orange/20 bg-white/60 backdrop-blur-md px-4 py-1.5 text-sm lg:text-base font-medium shadow-sm">
+                <span className="pill mb-4 lg:mb-5 text-brand-orange border-brand-orange/20 bg-white/60 backdrop-blur-md px-2 py-0.5 text-[10px] lg:text-xs font-medium shadow-sm">
                   {slides[current].pill}
                 </span>
               )}
-              <h1 className="text-2xl sm:text-4xl font-bold tracking-tight leading-[1.15] text-ink-dark lg:text-7xl font-arabic drop-shadow-sm">
+              <h1 className="text-lg sm:text-2xl font-bold tracking-tight leading-[1.15] text-ink-dark lg:text-4xl font-arabic drop-shadow-sm">
                 {slides[current].title}
               </h1>
-              <p className="mt-4 sm:mt-6 lg:mt-8 text-base leading-relaxed text-ink-muted sm:text-xl lg:text-2xl max-w-2xl">
+              <p className="mt-3 sm:mt-4 lg:mt-5 text-xs leading-relaxed text-ink-muted sm:text-sm lg:text-base max-w-xl">
                 {slides[current].subtitle}
               </p>
-              <div className="mt-6 sm:mt-10 lg:mt-12 flex flex-col sm:flex-row flex-wrap gap-4 justify-center w-full sm:w-auto">
+              <div className="mt-5 sm:mt-6 lg:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 justify-center w-full sm:w-auto">
                 {slides[current].ctaPrimary && (
-                  <Link href={slides[current].ctaPrimary.href} className="btn-primary px-8 py-3.5 text-base lg:text-lg w-full sm:w-auto shadow-premium">
+                  <Link href={slides[current].ctaPrimary.href} className="btn-primary px-5 py-2 text-xs lg:text-sm w-full sm:w-auto shadow-premium">
                     {slides[current].ctaPrimary.label}
                   </Link>
                 )}
                 {slides[current].ctaSecondary && (
-                  <Link href={slides[current].ctaSecondary.href} className="btn-secondary px-8 py-3.5 text-base lg:text-lg w-full sm:w-auto bg-white/70 backdrop-blur-md">
+                  <Link href={slides[current].ctaSecondary.href} className="btn-secondary px-5 py-2 text-xs lg:text-sm w-full sm:w-auto bg-white/70 backdrop-blur-md">
                     {slides[current].ctaSecondary.label}
                   </Link>
                 )}
@@ -98,7 +160,10 @@ export default function HeroCarousel({ slides, locale }: { slides: Slide[]; loca
           {slides.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => setCurrent(idx)}
+              onClick={() => {
+                setDirection(idx > current ? 1 : -1);
+                setCurrent(idx);
+              }}
               className={`h-1.5 rounded-full transition-all duration-500 ease-out ${
                 idx === current ? "w-10 bg-brand-orange" : "w-2.5 bg-ink-dark/30 hover:bg-ink-dark/50 hover:scale-110"
               }`}
@@ -106,23 +171,6 @@ export default function HeroCarousel({ slides, locale }: { slides: Slide[]; loca
             />
           ))}
         </div>
-
-        {/* Subtle Navigation Arrows (Hidden on mobile for cleaner look) */}
-        <button 
-          onClick={locale === 'ar' ? next : prev}
-          className="hidden sm:flex absolute top-1/2 -translate-y-1/2 z-20 left-6 lg:left-12 h-12 w-12 items-center justify-center rounded-full bg-white/50 backdrop-blur-md text-ink-dark/70 shadow-sm hover:bg-white hover:text-brand-orange hover:shadow-md transition-all duration-300 hover:scale-105"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="h-6 w-6" strokeWidth={1.5} />
-        </button>
-
-        <button 
-          onClick={locale === 'ar' ? prev : next}
-          className="hidden sm:flex absolute top-1/2 -translate-y-1/2 z-20 right-6 lg:right-12 h-12 w-12 items-center justify-center rounded-full bg-white/50 backdrop-blur-md text-ink-dark/70 shadow-sm hover:bg-white hover:text-brand-orange hover:shadow-md transition-all duration-300 hover:scale-105"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="h-6 w-6" strokeWidth={1.5} />
-        </button>
 
       </div>
     </section>

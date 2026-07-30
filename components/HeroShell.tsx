@@ -16,7 +16,7 @@ export default async function HeroShell({ locale }: { locale: Locale }) {
   const slides = [
     {
       id: "main",
-      image: heroImage,
+      image: "https://static.vecteezy.com/system/resources/thumbnails/055/593/016/small/honey-jar-with-a-wooden-dipper-resting-on-a-wooden-stump-surrounded-by-wildflowers-at-sunset-free-photo.jpeg",
       pill: t("ctaPrimary") === "Shop Now" ? "100% Natural Honey" : "عسل طبيعي ١٠٠٪",
       title: title,
       subtitle: subtitle,
@@ -26,6 +26,7 @@ export default async function HeroShell({ locale }: { locale: Locale }) {
     },
     {
       id: "offer1",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpW4-oRHFfc_165xrPngEDYbuTQyXr8F1HpvD-WXszxkcOM8GC5KZLdPg7&s=10",
       pill: locale === "ar" ? "عروض خاصة" : "Special Offers",
       title: locale === "ar" ? "عرض الأسبوع: خصم مميز" : "Offer of the Week: Special Discount",
       subtitle: locale === "ar" ? "اكتشف أفضل الخصومات على تشكيلة العسل الطبيعي الفاخر لدينا. جودة عالية بأسعار لا تفوت!" : "Discover the best discounts on our premium natural honey collection. Top quality at unmissable prices!",
@@ -34,6 +35,7 @@ export default async function HeroShell({ locale }: { locale: Locale }) {
     },
     {
       id: "benefits",
+      image: "https://thumbs.dreamstime.com/b/honey-bee-beautiful-yellow-flower-spring-summer-season-wild-nature-landscape-banner-background-collect-pollen-287564683.jpg",
       pill: locale === "ar" ? "جودة مضمونة" : "Guaranteed Quality",
       title: locale === "ar" ? "عسل طبيعي ومختبري" : "Natural & Lab Tested",
       subtitle: locale === "ar" ? "جميع منتجاتنا مفحوصة مخبرياً لضمان خلوها من الإضافات ومطابقتها لأعلى معايير الجودة." : "All our products are lab-tested to ensure they are free of additives and meet the highest quality standards.",
