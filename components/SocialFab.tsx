@@ -19,12 +19,6 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 
 const links = [
   {
-    name: "Website",
-    url: "/",
-    icon: Globe,
-    color: "bg-slate-800 text-white hover:bg-slate-900",
-  },
-  {
     name: "TikTok",
     url: "https://www.tiktok.com/@alfangary.eg",
     icon: TikTokIcon,

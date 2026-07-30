@@ -58,10 +58,10 @@ export default function HeroCarousel({ slides, locale }: { slides: Slide[]; loca
   };
 
   return (
-    <section className="mt-2 sm:mt-4">
+    <section>
       {/* Premium Hero Container */}
       <div 
-        className="relative mx-auto w-full max-w-[1920px] overflow-hidden sm:rounded-3xl sm:px-4 lg:px-8 h-[calc(100vh-120px)] min-h-[350px] sm:min-h-[400px] lg:min-h-[450px] shadow-sm bg-ink-dark/5"
+        className="relative mx-auto w-full max-w-[1920px] overflow-hidden h-[calc(100vh-120px)] min-h-[350px] sm:min-h-[400px] lg:min-h-[450px] shadow-sm bg-ink-dark/5"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -104,16 +104,18 @@ export default function HeroCarousel({ slides, locale }: { slides: Slide[]; loca
           </motion.div>
         </AnimatePresence>
 
-        <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-t from-white/90 via-white/50 to-transparent" />
-        <div className="pointer-events-none absolute inset-0 z-[5] bg-white/20 backdrop-blur-[2px]" />
-
-        <AnimatePresence mode="popLayout" initial={false}>
+        <AnimatePresence mode="popLayout" initial={false} custom={direction}>
           <motion.div
             key={current + "-text"}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 }
+            }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
