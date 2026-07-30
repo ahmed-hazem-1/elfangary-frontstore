@@ -32,16 +32,16 @@ export default function ProductGallery({ images, title }: { images: GalleryImage
         />
       </div>
       {images.length > 1 && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto snap-x pb-2 w-full">
           {images.map((img, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`relative h-20 w-20 overflow-hidden rounded-btn border-2 transition-colors ${
+              className={`relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 snap-center overflow-hidden rounded-btn border-2 transition-colors ${
                 i === active ? "border-brand-orange" : "border-transparent"
               }`}
             >
-              <Image src={img.url} alt={img.altText || title} fill sizes="80px" className="object-cover" />
+              <Image src={img.url} alt={img.altText || title} fill sizes="(max-width: 640px) 64px, 80px" className="object-cover" />
             </button>
           ))}
         </div>

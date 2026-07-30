@@ -104,6 +104,7 @@ export interface CartLine {
     image?: { url: string; altText?: string | null } | null;
     product: { handle: string; title: string };
     price: MoneyV2;
+    compareAtPrice?: MoneyV2 | null;
     selectedOptions: SelectedOption[];
   };
   estimatedCost: {

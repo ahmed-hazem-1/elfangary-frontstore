@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useState, useEffect, useTransition } from "react";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, X, Filter } from "lucide-react";
 
 export default function FilterSidebar({
   labels,
@@ -33,6 +33,7 @@ export default function FilterSidebar({
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
   const [isPending, startTransition] = useTransition();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const [q, setQ] = useState(params.get("q") || "");
   const [minPrice, setMinPrice] = useState(params.get("minPrice") || "");
@@ -63,22 +64,51 @@ export default function FilterSidebar({
   }, [minPrice, maxPrice]);
 
   return (
-    <aside className={`card sticky top-24 h-fit w-full max-w-xs space-y-6 p-5 shrink-0 transition-opacity duration-300 ${isPending ? "opacity-60 pointer-events-none" : "opacity-100"}`}>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-bold text-ink-dark">{labels.filters}</h2>
-          {isPending && <Loader2 className="h-4 w-4 animate-spin text-brand-orange" />}
-        </div>
-        {(params.toString() !== "") && (
-          <button 
-            onClick={() => startTransition(() => { router.push(pathname); })} 
-            className="text-xs text-brand-orange hover:underline"
-          >
-            مسح الفلاتر
-          </button>
-        )}
+    <>
+      <div className="lg:hidden w-full mb-2">
+        <button 
+          onClick={() => setIsMobileOpen(true)} 
+          className="btn-secondary w-full flex items-center justify-center gap-2 h-12 shadow-sm"
+        >
+          <Filter className="h-5 w-5" /> {labels.filters}
+        </button>
       </div>
 
+      <aside 
+        className={`
+          ${isMobileOpen ? "fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-sm sm:items-center sm:justify-center p-0 sm:p-4" : "hidden lg:block"}
+          lg:sticky lg:top-24 h-fit w-full lg:max-w-xs shrink-0
+        `}
+      >
+        <div 
+          className={`
+            ${isMobileOpen ? "w-full max-h-[90vh] overflow-y-auto bg-white rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl flex flex-col gap-6" : "card space-y-6 p-5"}
+            ${isPending ? "opacity-60 pointer-events-none" : "opacity-100"} transition-opacity duration-300
+          `}
+        >
+          <div className="flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold text-ink-dark">{labels.filters}</h2>
+              {isPending && <Loader2 className="h-4 w-4 animate-spin text-brand-orange" />}
+            </div>
+            <div className="flex items-center gap-3">
+              {(params.toString() !== "") && (
+                <button 
+                  onClick={() => startTransition(() => { router.push(pathname); })} 
+                  className="text-xs text-brand-orange hover:underline"
+                >
+                  مسح الفلاتر
+                </button>
+              )}
+              {isMobileOpen && (
+                <button onClick={() => setIsMobileOpen(false)} className="rounded-full bg-ink-dark/5 p-1.5 text-ink-muted hover:text-ink-dark lg:hidden">
+                  <X className="h-5 w-5" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-6">
       {/* Search */}
       <div className="relative">
         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
@@ -189,6 +219,17 @@ export default function FilterSidebar({
         </label>
       </div>
 
-    </aside>
+      </div>
+
+          {isMobileOpen && (
+            <div className="mt-4 pt-4 border-t border-ink-dark/5 lg:hidden shrink-0 sticky bottom-0 bg-white pb-2 z-10">
+              <button onClick={() => setIsMobileOpen(false)} className="btn-primary w-full h-12 text-base shadow-premium">
+                {labels.apply}
+              </button>
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
   );
 }

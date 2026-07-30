@@ -17,7 +17,7 @@ export default function BenefitCard({ obj, index }: { obj: Metaobject; index: nu
   const iconKey = metaobjectField(obj, "icon") || ICONS[index % ICONS.length];
   const Icon = ICON_MAP[iconKey] || Sparkles;
   return (
-    <div className="card flex flex-col items-start gap-3 p-6 transition-all duration-250 ease-buttery hover:-translate-y-1">
+    <div className="card flex flex-col items-start gap-2 sm:gap-3 p-4 sm:p-6 transition-all duration-250 ease-buttery hover:-translate-y-1">
       <div className="flex h-12 w-12 items-center justify-center rounded-btn bg-brand-orange/10 text-brand-orange">
         <Icon className="h-6 w-6" />
       </div>

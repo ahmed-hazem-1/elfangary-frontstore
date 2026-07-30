@@ -1,17 +1,17 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
 import { useCartStore } from "@/store/cartStore";
-import { updateLineAction, removeLineAction } from "@/app/actions/cart";
+import { updateLineAction, removeLineAction, applyDiscountCodeAction } from "@/app/actions/cart";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
 
 export default function CartDrawerInner({ locale, labels }: {
   locale: string;
-  labels: { subtotal: string; checkout: string; empty: string; title: string; quantity: string; remove: string };
+  labels: { subtotal: string; checkout: string; empty: string; title: string; quantity: string; remove: string; discountCode: string; apply: string };
 }) {
   const [pending, startTransition] = useTransition();
   const { lines, totalQuantity, cost, discountCodes, checkoutUrl, setCart, closeDrawer } = useCartStore(
@@ -29,6 +29,7 @@ export default function CartDrawerInner({ locale, labels }: {
   const subtotalAmount = cost?.subtotalAmount?.amount || lines.reduce((sum, l) => sum + Number(l.estimatedCost?.subtotalAmount?.amount || 0), 0);
   const totalAmount = cost?.totalAmount?.amount || subtotalAmount;
   const router = useRouter();
+  const [discountCode, setDiscountCode] = useState("");
 
   function updateQty(lineId: string, qty: number) {
     startTransition(async () => {
@@ -41,6 +42,20 @@ export default function CartDrawerInner({ locale, labels }: {
     startTransition(async () => {
       const cart = await removeLineAction(lineId);
       if (cart) setCart(cart);
+    });
+  }
+
+  function applyDiscount(e: React.FormEvent) {
+    e.preventDefault();
+    if (!discountCode.trim()) return;
+    
+    startTransition(async () => {
+      const cart = await applyDiscountCodeAction(discountCode);
+      if (cart) {
+        setCart(cart);
+        toast.success(labels.apply + " ✓");
+        setDiscountCode("");
+      }
     });
   }
 
@@ -62,15 +77,22 @@ export default function CartDrawerInner({ locale, labels }: {
                 <img
                   src={line.merchandise.image.url}
                   alt={line.merchandise.image.altText || line.merchandise.title}
-                  className="h-16 w-16 rounded-btn object-cover"
+                  className="h-20 w-20 rounded-btn object-cover shrink-0"
                 />
               )}
-              <div className="flex-1">
+              <div className="flex-1 flex flex-col justify-center">
                 <p className="text-sm font-semibold">{line.merchandise.product.title}</p>
                 <p className="text-xs text-ink-muted">{line.merchandise.title}</p>
-                <p className="mt-1 text-sm font-medium text-brand-orange">
-                  {formatCurrency(line.merchandise.price, locale)}
-                </p>
+                <div className="mt-1 flex items-baseline gap-2">
+                  <p className="text-sm font-medium text-brand-orange">
+                    {formatCurrency(line.merchandise.price, locale)}
+                  </p>
+                  {line.merchandise.compareAtPrice && Number(line.merchandise.compareAtPrice.amount) > Number(line.merchandise.price.amount) && (
+                    <p className="text-xs text-ink-muted line-through">
+                      {formatCurrency(line.merchandise.compareAtPrice, locale)}
+                    </p>
+                  )}
+                </div>
                 <div className="mt-2 flex items-center gap-2">
                   <div className="flex items-center rounded-btn border border-ink-dark/10">
                     <button
@@ -116,13 +138,24 @@ export default function CartDrawerInner({ locale, labels }: {
             {formatCurrency({ amount: String(totalAmount), currencyCode: currency }, locale)}
           </span>
         </div>
+        
+        <form className="mb-4 flex gap-2" onSubmit={applyDiscount}>
+          <input 
+            placeholder={labels.discountCode} 
+            value={discountCode}
+            onChange={(e) => setDiscountCode(e.target.value)}
+            className="input-field h-10 flex-1 text-sm" 
+            disabled={pending}
+          />
+          <button type="submit" className="btn-secondary h-10" disabled={pending}>{labels.apply}</button>
+        </form>
+
         <button
           onClick={() => {
-            closeDrawer();
-            router.push(`${locale === "en" ? "/en" : ""}/cart`);
+            if (checkoutUrl) window.location.href = checkoutUrl;
           }}
           className="btn-primary w-full"
-          disabled={pending}
+          disabled={pending || !checkoutUrl}
         >
           {labels.checkout}
         </button>

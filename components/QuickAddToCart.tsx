@@ -48,12 +48,12 @@ export default function QuickAddToCart({ variantId, availableForSale }: { varian
   if (quantity > 0) {
     return (
       <div 
-        className="flex items-center justify-between rounded-full bg-brand-orange text-white p-1 shadow-premium w-24 h-9 relative z-20 transition-all duration-300"
+        className="flex items-center justify-between rounded-full bg-brand-orange text-white p-1 shadow-premium w-20 h-8 sm:w-24 sm:h-9 relative z-20 transition-all duration-300"
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
       >
         <button 
           onClick={(e) => handleUpdate(e, quantity - 1)}
-          className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+          className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
           disabled={isPending}
         >
           <Minus className="h-4 w-4" />
@@ -63,7 +63,7 @@ export default function QuickAddToCart({ variantId, availableForSale }: { varian
         </span>
         <button 
           onClick={(e) => handleUpdate(e, quantity + 1)}
-          className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+          className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
           disabled={isPending}
         >
           <Plus className="h-4 w-4" />

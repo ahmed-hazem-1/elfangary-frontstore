@@ -14,6 +14,7 @@ const CART_FIELDS = `
               image { url altText }
               product { handle title }
               price { amount currencyCode }
+              compareAtPrice { amount currencyCode }
               selectedOptions { name value }
             }
           }

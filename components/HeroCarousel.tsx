@@ -38,7 +38,7 @@ export default function HeroCarousel({ slides, locale }: { slides: Slide[]; loca
     <section className="mt-2 sm:mt-4">
       {/* Premium Hero Container */}
       <div 
-        className="relative mx-auto w-full max-w-[1920px] overflow-hidden sm:rounded-3xl sm:px-4 lg:px-8 h-[75vh] min-h-[500px] lg:h-[85vh] lg:min-h-[700px] shadow-sm bg-ink-dark/5"
+        className="relative mx-auto w-full max-w-[1920px] overflow-hidden sm:rounded-3xl sm:px-4 lg:px-8 h-[70vh] min-h-[400px] sm:h-[75vh] sm:min-h-[500px] lg:h-[85vh] lg:min-h-[700px] shadow-sm bg-ink-dark/5"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -50,7 +50,7 @@ export default function HeroCarousel({ slides, locale }: { slides: Slide[]; loca
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className={`absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-24 ${slides[current].bgColorClass || 'bg-white'}`}
+            className={`absolute inset-0 flex flex-col justify-center px-4 sm:px-12 lg:px-24 ${slides[current].bgColorClass || 'bg-white'}`}
           >
             {slides[current].image ? (
               <Image
@@ -71,13 +71,13 @@ export default function HeroCarousel({ slides, locale }: { slides: Slide[]; loca
                   {slides[current].pill}
                 </span>
               )}
-              <h1 className="text-4xl font-bold tracking-tight leading-[1.15] text-ink-dark sm:text-5xl lg:text-7xl font-arabic drop-shadow-sm">
+              <h1 className="text-2xl sm:text-4xl font-bold tracking-tight leading-[1.15] text-ink-dark lg:text-7xl font-arabic drop-shadow-sm">
                 {slides[current].title}
               </h1>
-              <p className="mt-6 lg:mt-8 text-lg leading-relaxed text-ink-muted sm:text-xl lg:text-2xl max-w-2xl">
+              <p className="mt-4 sm:mt-6 lg:mt-8 text-base leading-relaxed text-ink-muted sm:text-xl lg:text-2xl max-w-2xl">
                 {slides[current].subtitle}
               </p>
-              <div className="mt-10 lg:mt-12 flex flex-col sm:flex-row flex-wrap gap-4 justify-center w-full sm:w-auto">
+              <div className="mt-6 sm:mt-10 lg:mt-12 flex flex-col sm:flex-row flex-wrap gap-4 justify-center w-full sm:w-auto">
                 {slides[current].ctaPrimary && (
                   <Link href={slides[current].ctaPrimary.href} className="btn-primary px-8 py-3.5 text-base lg:text-lg w-full sm:w-auto shadow-premium">
                     {slides[current].ctaPrimary.label}

@@ -67,7 +67,7 @@ export default function SocialFab() {
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-3"
+      className="fixed bottom-24 sm:bottom-6 end-6 z-50 flex flex-col items-center gap-3"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

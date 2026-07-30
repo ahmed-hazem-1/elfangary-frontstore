@@ -21,6 +21,8 @@ export default function CartDrawerClient() {
         title: m.default.Cart.title,
         quantity: m.default.Common.quantity,
         remove: m.default.Common.remove,
+        discountCode: m.default.Common.discountCode,
+        apply: m.default.Common.apply,
       });
     });
   }, [locale]);

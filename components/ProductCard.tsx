@@ -56,9 +56,9 @@ export default function ProductCard({ product, locale, labels }: {
         )}
       </div>
 
-      <div className="flex items-center justify-between p-4 sm:p-5">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between p-2.5 sm:p-5">
         <div className="flex flex-col">
-          <span className="text-lg font-bold text-brand-orange group-hover:text-white transition-colors">{price}</span>
+          <span className="text-sm sm:text-lg font-bold text-brand-orange group-hover:text-white transition-colors">{price}</span>
           {hasDiscount && (
             <span className="text-sm text-ink-muted group-hover:text-white/80 line-through transition-colors">
               {formatPriceRange(compareAt, compareAt, locale)}

@@ -87,12 +87,12 @@ export default function CartPageClient({ labels }: {
         <div className="lg:col-span-2">
           <ul className="space-y-4">
             {lines.map((line) => (
-              <li key={line.id} className="card flex gap-4 p-4">
+              <li key={line.id} className="card flex flex-col sm:flex-row gap-3 sm:gap-4 p-3 sm:p-4">
                 {line.merchandise.image?.url && (
                   <img
                     src={line.merchandise.image.url}
                     alt={line.merchandise.image.altText || line.merchandise.product.title}
-                    className="h-24 w-24 rounded-btn object-cover"
+                    className="h-20 w-20 sm:h-24 sm:w-24 rounded-btn object-cover"
                   />
                 )}
                 <div className="flex-1">
@@ -101,7 +101,7 @@ export default function CartPageClient({ labels }: {
                   <p className="mt-1 font-bold text-brand-orange">
                     {formatCurrency(line.merchandise.price, locale)}
                   </p>
-                  <div className="mt-3 flex items-center gap-3">
+                  <div className="mt-3 flex items-center justify-between sm:justify-start gap-3">
                     <div className="flex items-center rounded-btn border border-ink-dark/10">
                       <button onClick={() => updateQty(line.id, line.quantity - 1)} className="px-2.5 py-1.5 hover:bg-ink-dark/5" aria-label="decrease">
                         <Minus className="h-4 w-4" />

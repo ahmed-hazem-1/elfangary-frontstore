@@ -19,6 +19,15 @@ export default function middleware(req: NextRequest) {
       return NextResponse.redirect(url);
     }
   }
+
+  // Redirect /cart to / since cart is now drawer-only
+  const cartMatch = pathname.match(/^\/(ar|en)\/cart(\/|$)/);
+  if (cartMatch) {
+    const locale = cartMatch[1];
+    const url = req.nextUrl.clone();
+    url.pathname = `/${locale}`;
+    return NextResponse.redirect(url);
+  }
   return res;
 }
 

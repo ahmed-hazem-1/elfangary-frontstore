@@ -44,10 +44,10 @@ export default function HeaderClient({
 
   return (
     <header className="container-shell sticky top-0 z-40 mx-auto w-full border-b border-ink-dark/5 bg-white/95 backdrop-blur-xl px-4 py-3 sm:px-8 shadow-sm">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2 sm:gap-4">
         <Link href={locale === "en" ? "/en" : "/"} className="flex items-center gap-2.5 group">
           <Logo className="h-9 w-9" />
-          <span className="text-2xl font-bold tracking-tight text-ink-dark group-hover:text-brand-orange transition-colors mt-1 font-arabic">
+          <span className="text-lg sm:text-2xl font-bold tracking-tight text-ink-dark group-hover:text-brand-orange transition-colors mt-1 font-arabic">
             {brand}
           </span>
         </Link>
@@ -80,7 +80,7 @@ export default function HeaderClient({
 
           <Link
             href={`${locale === "en" ? "/en" : ""}/account`}
-            className="btn-ghost h-10 w-10 p-0"
+            className="btn-ghost h-9 w-9 sm:h-10 sm:w-10 p-0"
             aria-label={labels.account}
           >
             <User className="h-5 w-5" />
@@ -88,7 +88,7 @@ export default function HeaderClient({
 
           <button
             onClick={openDrawer}
-            className="btn-ghost relative h-10 w-10 p-0"
+            className="btn-ghost relative h-9 w-9 sm:h-10 sm:w-10 p-0"
             aria-label={labels.cart}
           >
             <ShoppingBag className="h-5 w-5" />
@@ -105,7 +105,7 @@ export default function HeaderClient({
 
           <button
             onClick={() => setMenuOpen((v) => !v)}
-            className="btn-ghost h-10 w-10 p-0 lg:hidden"
+            className="btn-ghost h-9 w-9 sm:h-10 sm:w-10 p-0 lg:hidden"
             aria-label="Menu"
           >
             <Menu className="h-5 w-5" />
@@ -115,6 +115,18 @@ export default function HeaderClient({
 
       {menuOpen && (
         <nav className="mt-3 flex flex-col gap-1 border-t border-ink-dark/5 pt-3 lg:hidden">
+          <form onSubmit={(e) => { submitSearch(e); setMenuOpen(false); }} className="mb-2 flex items-center md:hidden">
+            <div className="relative w-full">
+              <Search className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={labels.searchPlaceholder}
+                className="input-field h-10 w-full ps-9 text-sm"
+                aria-label={labels.search}
+              />
+            </div>
+          </form>
           {nav.map((item) => (
             <Link
               key={item.path}

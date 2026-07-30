@@ -94,10 +94,10 @@ export default function ProductDetail({
 
       <div className="flex flex-col">
         {product.vendor && <p className="text-sm font-medium text-ink-muted">{labels.vendor}: {product.vendor}</p>}
-        <h1 className="mt-1 text-3xl font-bold text-ink-dark sm:text-4xl">{product.title}</h1>
+        <h1 className="mt-1 text-2xl font-bold text-ink-dark sm:text-3xl lg:text-4xl">{product.title}</h1>
 
         <div className="mt-4 flex items-baseline gap-3">
-          <span className="text-3xl font-bold text-brand-orange">{price}</span>
+          <span className="text-2xl sm:text-3xl font-bold text-brand-orange">{price}</span>
           {hasDiscount && (
             <span className="text-lg text-ink-muted line-through">
               {formatPriceRange(compareAt, compareAt, locale)}
@@ -117,19 +117,21 @@ export default function ProductDetail({
           </div>
         )}
 
-        <div className="mt-6 flex flex-wrap items-center gap-4">
-          <QuantityStepper value={qty} onChange={setQty} />
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+          <div className="self-start sm:self-auto">
+            <QuantityStepper value={qty} onChange={setQty} />
+          </div>
           <button
             onClick={handleAdd}
             disabled={pending || !selectedVariant?.availableForSale}
-            className="btn-primary flex-1"
+            className="btn-primary w-full sm:w-auto sm:flex-1"
           >
             {labels.addToCart}
           </button>
           <button
             onClick={handleBuyNow}
             disabled={buying || !selectedVariant?.availableForSale}
-            className="btn-secondary flex-1"
+            className="btn-secondary w-full sm:w-auto sm:flex-1"
           >
             {labels.buyNow}
           </button>
