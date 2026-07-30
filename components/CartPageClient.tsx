@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
 import { useCartStore } from "@/store/cartStore";
@@ -62,7 +62,14 @@ export default function CartPageClient({ labels }: {
       const cart = await applyDiscountCodeAction(discountCode);
       if (cart) {
         setCart(cart);
-        toast.success(labels.apply + " ✓");
+        const subAmount = cart.cost?.subtotalAmount?.amount || 0;
+        const totAmount = cart.cost?.totalAmount?.amount || 0;
+        
+        if (Number(subAmount) <= Number(totAmount)) {
+          toast.error("كود الخصم غير صالح أو لا ينطبق على هذه السلة");
+        } else {
+          toast.success(labels.apply + " ✓");
+        }
         setDiscountCode("");
       }
     });
@@ -101,6 +108,12 @@ export default function CartPageClient({ labels }: {
                   <p className="mt-1 font-bold text-brand-orange">
                     {formatCurrency(line.merchandise.price, locale)}
                   </p>
+                  {line.discountAllocations && line.discountAllocations.length > 0 && (
+                    <div className="mt-1 flex items-center gap-1 text-xs font-bold text-brand-orange">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      <span>شمل الخصم</span>
+                    </div>
+                  )}
                   <div className="mt-3 flex items-center justify-between sm:justify-start gap-3">
                     <div className="flex items-center rounded-btn border border-ink-dark/10">
                       <button onClick={() => updateQty(line.id, line.quantity - 1)} className="px-2.5 py-1.5 hover:bg-ink-dark/5" aria-label="decrease">
@@ -125,19 +138,48 @@ export default function CartPageClient({ labels }: {
           <h2 className="text-lg font-bold text-ink-dark">{labels.summary}</h2>
           
           {discountCodes && discountCodes.length > 0 && (
-            <div className="mt-4 flex items-center justify-between text-sm text-brand-orange">
+            <div className={`mt-4 flex items-center justify-between text-sm ${Number(subtotalAmount) > Number(totalAmount) ? "text-brand-orange" : "text-red-500"}`}>
               <span>الخصم ({discountCodes[0].code})</span>
-              <span>مُطبق ✅</span>
+              <div className="flex items-center gap-1 font-medium">
+                {Number(subtotalAmount) > Number(totalAmount) ? (
+                  <>
+                    <span>تم التطبيق</span>
+                    <CheckCircle2 className="h-4 w-4" />
+                  </>
+                ) : (
+                  <>
+                    <span>غير مطبق على هذه السلة</span>
+                    <XCircle className="h-4 w-4" />
+                  </>
+                )}
+              </div>
             </div>
           )}
 
           <div className="mt-4 flex items-center justify-between">
             <span className="text-sm text-ink-muted">{labels.subtotal}</span>
-            <span className="text-xl font-bold">{formatCurrency({ amount: String(totalAmount), currencyCode: currency }, locale)}</span>
+            <span className="text-lg font-bold">{formatCurrency({ amount: String(subtotalAmount), currencyCode: currency }, locale)}</span>
           </div>
-          <div className="mt-2 flex items-center justify-between text-sm text-ink-muted">
-            <span>{labels.total}</span>
-            <span>{totalQuantity}</span>
+
+          {Number(subtotalAmount) > Number(totalAmount) && (
+            <div className="mt-2 flex items-center justify-between text-brand-orange">
+              <span className="text-sm font-bold">قيمة الخصم</span>
+              <span className="text-sm font-bold">- {formatCurrency({ amount: String(Number(subtotalAmount) - Number(totalAmount)), currencyCode: currency }, locale)}</span>
+            </div>
+          )}
+
+          <div className="mt-3 flex items-center justify-between border-t border-ink-dark/10 pt-4">
+            <span className="text-base font-bold text-ink-dark">{labels.total}</span>
+            <div className="flex flex-col items-end">
+              {Number(subtotalAmount) > Number(totalAmount) && (
+                <span className="text-xs text-ink-muted line-through">
+                  {formatCurrency({ amount: String(subtotalAmount), currencyCode: currency }, locale)}
+                </span>
+              )}
+              <span className="text-2xl font-bold text-brand-orange">
+                {formatCurrency({ amount: String(totalAmount), currencyCode: currency }, locale)}
+              </span>
+            </div>
           </div>
           <form className="mt-4 flex gap-2" onSubmit={applyDiscount}>
             <input 

@@ -15,7 +15,7 @@ export default function CartDrawerClient() {
   useEffect(() => {
     import(`@/i18n/messages/${locale}.json`).then((m) => {
       setLabels({
-        subtotal: m.default.Cart.subtotal,
+        subtotal: m.default.Common.subtotal,
         checkout: m.default.Common.checkout,
         empty: m.default.Cart.empty,
         title: m.default.Cart.title,

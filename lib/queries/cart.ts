@@ -19,10 +19,11 @@ const CART_FIELDS = `
             }
           }
           estimatedCost { subtotalAmount { amount currencyCode } totalAmount { amount currencyCode } }
+          discountAllocations { discountedAmount { amount currencyCode } }
         }
       }
     }
-    cost { subtotalAmount { amount currencyCode } totalAmount { amount currencyCode } totalTaxAmount { amount currencyCode } }
+    cost { subtotalAmount { amount currencyCode } totalAmount { amount currencyCode } checkoutChargeAmount { amount currencyCode } totalTaxAmount { amount currencyCode } }
     discountCodes { code applicable }
   }
 `;

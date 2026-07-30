@@ -120,32 +120,36 @@ export default function ProductCard({ product, locale, labels }: {
         )}
       </div>
 
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between p-2.5 sm:p-5">
-        <div className="flex flex-col">
-          <span className="text-sm sm:text-lg font-bold text-brand-orange group-hover:text-white transition-colors">{price}</span>
+      <div className="flex flex-col flex-1 justify-between p-3.5 sm:p-4 gap-2.5">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
+          <span className="text-base sm:text-lg font-bold text-brand-orange group-hover:text-white transition-colors">
+            {price}
+          </span>
           {hasDiscount && (
-            <span className="text-sm text-ink-muted group-hover:text-white/80 line-through transition-colors">
+            <span className="text-xs sm:text-sm text-ink-muted group-hover:text-white/80 line-through transition-colors">
               {formatPriceRange(compareAt, compareAt, locale)}
             </span>
           )}
         </div>
-        
+
         {variantId && product.availableForSale && (
-          <div className="shrink-0" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+          <div className="w-full shrink-0 mt-auto" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
             {quantity > 0 ? (
-              <div className="flex items-center justify-between rounded-full bg-brand-orange text-white p-1 shadow-premium w-24 h-9 relative z-20 transition-all duration-300 group-hover:bg-white group-hover:text-brand-orange">
-                <button 
+              <div className="flex w-full items-center justify-between rounded-full bg-brand-orange text-white p-1 shadow-premium h-9 relative z-20 transition-all duration-300 group-hover:bg-white group-hover:text-brand-orange">
+                <button
                   onClick={(e) => handleUpdate(e, quantity - 1)}
                   className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 group-hover:bg-brand-orange/10 group-hover:hover:bg-brand-orange/20 transition-colors"
+                  aria-label="Decrease quantity"
                 >
                   <Minus className="h-4 w-4" />
                 </button>
-                <span className="text-sm font-semibold w-6 text-center">
+                <span className="text-sm font-semibold px-2 text-center">
                   {quantity}
                 </span>
-                <button 
+                <button
                   onClick={(e) => handleUpdate(e, quantity + 1)}
                   className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 group-hover:bg-brand-orange/10 group-hover:hover:bg-brand-orange/20 transition-colors"
+                  aria-label="Increase quantity"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -153,7 +157,7 @@ export default function ProductCard({ product, locale, labels }: {
             ) : (
               <button
                 onClick={handleAdd}
-                className="flex h-9 items-center justify-center rounded-full bg-brand-orange px-4 text-sm font-semibold text-white shadow-premium transition-colors relative z-20 group-hover:bg-white group-hover:text-brand-orange"
+                className="flex w-full h-9 items-center justify-center rounded-full bg-brand-orange px-4 text-sm font-semibold text-white shadow-premium transition-all duration-300 relative z-20 group-hover:bg-white group-hover:text-brand-orange active:scale-[0.98]"
                 aria-label={labels.addToCart}
               >
                 {labels.addToCart || "Add"}

@@ -2,11 +2,11 @@
 
 import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
 import { useCartStore } from "@/store/cartStore";
-import { updateLineAction, removeLineAction, applyDiscountCodeAction } from "@/app/actions/cart";
+import { updateLineAction, removeLineAction, applyDiscountCodeAction, removeDiscountCodeAction } from "@/app/actions/cart";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
 
 export default function CartDrawerInner({ locale, labels }: {
@@ -14,7 +14,7 @@ export default function CartDrawerInner({ locale, labels }: {
   labels: { subtotal: string; checkout: string; empty: string; title: string; quantity: string; remove: string; discountCode: string; apply: string };
 }) {
   const [pending, startTransition] = useTransition();
-  const { lines, totalQuantity, cost, discountCodes, checkoutUrl, setCart, closeDrawer } = useCartStore(
+  const { lines, totalQuantity, cost, discountCodes, checkoutUrl, setCart, closeDrawer, reset } = useCartStore(
     useShallow((s) => ({
       lines: s.lines,
       totalQuantity: s.totalQuantity,
@@ -23,25 +23,53 @@ export default function CartDrawerInner({ locale, labels }: {
       checkoutUrl: s.checkoutUrl,
       setCart: s.setCart,
       closeDrawer: s.closeDrawer,
+      reset: s.reset,
     }))
   );
   const currency = cost?.totalAmount?.currencyCode || lines[0]?.merchandise?.price?.currencyCode || "SAR";
-  const subtotalAmount = cost?.subtotalAmount?.amount || lines.reduce((sum, l) => sum + Number(l.estimatedCost?.subtotalAmount?.amount || 0), 0);
-  const totalAmount = cost?.totalAmount?.amount || subtotalAmount;
+  // Sum prices × quantities from line items for the true "before discount" total
+  const beforeDiscount = lines.reduce(
+    (sum, l) => sum + Number(l.merchandise?.price?.amount ?? 0) * (l.quantity ?? 1),
+    0
+  );
+
+  // Sum all per-line discount allocations — this is the actual discount applied
+  const totalDiscountFromLines = lines.reduce(
+    (sum, l) =>
+      sum + (l.discountAllocations?.reduce((s, d) => s + Number(d.discountedAmount?.amount ?? 0), 0) ?? 0),
+    0
+  );
+
+  const isApplicable = discountCodes && discountCodes.length > 0 && discountCodes.some((d) => d.applicable);
+  const discountAmount = isApplicable ? totalDiscountFromLines : 0;
+  const afterDiscount = Math.max(0, beforeDiscount - discountAmount);
   const router = useRouter();
   const [discountCode, setDiscountCode] = useState("");
 
   function updateQty(lineId: string, qty: number) {
     startTransition(async () => {
       const cart = await updateLineAction(lineId, Math.max(0, qty));
-      if (cart) setCart(cart);
+      if (cart) {
+        setCart(cart);
+      } else {
+        // null = cart is now empty — full reset
+        reset();
+        closeDrawer();
+      }
     });
   }
 
   function removeLine(lineId: string) {
     startTransition(async () => {
       const cart = await removeLineAction(lineId);
-      if (cart) setCart(cart);
+      if (cart) {
+        // Cart still has items — update state normally
+        setCart(cart);
+      } else {
+        // Server returned null → cart is now empty, do a full reset
+        reset();
+        closeDrawer();
+      }
     });
   }
 
@@ -53,7 +81,10 @@ export default function CartDrawerInner({ locale, labels }: {
       const cart = await applyDiscountCodeAction(discountCode);
       if (cart) {
         setCart(cart);
-        toast.success(labels.apply + " ✓");
+        const isApplicable = cart.discountCodes?.some((d) => d.applicable);
+        if (isApplicable) {
+          toast.success(labels.apply + " ✓");
+        }
         setDiscountCode("");
       }
     });
@@ -93,6 +124,17 @@ export default function CartDrawerInner({ locale, labels }: {
                     </p>
                   )}
                 </div>
+                {line.discountAllocations && line.discountAllocations.length > 0 ? (
+                  <div className="mt-0.5 flex items-center gap-1 text-[10px] font-bold text-brand-orange">
+                    <CheckCircle2 className="h-3 w-3" />
+                    <span>شمل الخصم</span>
+                  </div>
+                ) : discountCodes && discountCodes.length > 0 ? (
+                  <div className="mt-0.5 flex items-center gap-1 text-[10px] font-bold text-red-500">
+                    <XCircle className="h-3 w-3" />
+                    <span>الكود غير مطبق على هذا المنتج</span>
+                  </div>
+                ) : null}
                 <div className="mt-2 flex items-center gap-2">
                   <div className="flex items-center rounded-btn border border-ink-dark/10">
                     <button
@@ -126,29 +168,83 @@ export default function CartDrawerInner({ locale, labels }: {
       </div>
 
       <div className="border-t border-ink-dark/5 bg-white/80 p-5">
-        {discountCodes && discountCodes.length > 0 && (
+        {/* Total before discount */}
+        <div className="mb-1 flex items-center justify-between">
+          <span className="text-sm text-ink-muted">
+            {locale === "ar" ? "الإجمالي قبل الخصم" : "Total before discount"}
+          </span>
+          <span className="text-base font-bold">
+            {formatCurrency({ amount: String(beforeDiscount), currencyCode: currency }, locale)}
+          </span>
+        </div>
+
+        {/* Discount code row — only when truly applicable */}
+        {isApplicable && (
           <div className="mb-2 flex items-center justify-between text-sm text-brand-orange">
-            <span>الخصم ({discountCodes[0].code})</span>
-            <span>مُطبق ✅</span>
+            <span className="flex items-center gap-1">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              <span>كود الخصم ({discountCodes![0].code})</span>
+            </span>
+            <span className="font-bold">
+              - {formatCurrency({ amount: String(discountAmount), currencyCode: currency }, locale)}
+            </span>
           </div>
         )}
-        <div className="mb-3 flex items-center justify-between">
-          <span className="text-sm text-ink-muted">{labels.subtotal}</span>
-          <span className="text-lg font-bold">
-            {formatCurrency({ amount: String(totalAmount), currencyCode: currency }, locale)}
+
+        {/* Total after discount */}
+        <div className="mb-4 flex items-center justify-between border-t border-ink-dark/10 pt-3">
+          <span className="text-base font-bold text-ink-dark">
+            {locale === "ar" ? "الإجمالي بعد الخصم" : "Total after discount"}
+          </span>
+          <span className="text-xl font-bold text-brand-orange">
+            {formatCurrency({ amount: String(afterDiscount), currencyCode: currency }, locale)}
           </span>
         </div>
         
-        <form className="mb-4 flex gap-2" onSubmit={applyDiscount}>
-          <input 
-            placeholder={labels.discountCode} 
-            value={discountCode}
-            onChange={(e) => setDiscountCode(e.target.value)}
-            className="input-field h-10 flex-1 text-sm" 
-            disabled={pending}
-          />
-          <button type="submit" className="btn-secondary h-10" disabled={pending}>{labels.apply}</button>
-        </form>
+        {/* Discount code section */}
+        {discountCodes && discountCodes.length > 0 ? (
+          // Code already applied — show badge with remove button, block adding another
+          <div className="mb-4 flex items-center justify-between rounded-btn border border-brand-orange/30 bg-brand-orange/5 px-3 py-2">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-brand-orange shrink-0" />
+              <div>
+                <p className="text-xs font-bold text-brand-orange">{discountCodes[0].code}</p>
+                <p className="text-[10px] text-ink-muted">
+                  {isApplicable
+                    ? (locale === "ar" ? "الكود مفعّل على بعض المنتجات" : "Code applied to eligible items")
+                    : (locale === "ar" ? "الكود غير مطبق على منتجات السلة" : "Code not applicable to cart items")}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                startTransition(async () => {
+                  const cart = await removeDiscountCodeAction();
+                  if (cart) setCart(cart);
+                });
+              }}
+              disabled={pending}
+              className="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 font-medium transition-colors"
+            >
+              <XCircle className="h-3.5 w-3.5" />
+              {locale === "ar" ? "إزالة" : "Remove"}
+            </button>
+          </div>
+        ) : (
+          // No code applied — show input form
+          <form className="mb-4 flex gap-2" onSubmit={applyDiscount}>
+            <input
+              placeholder={labels.discountCode}
+              value={discountCode}
+              onChange={(e) => setDiscountCode(e.target.value)}
+              className="input-field h-10 flex-1 text-sm"
+              disabled={pending}
+            />
+            <button type="submit" className="btn-secondary h-10" disabled={pending}>
+              {labels.apply}
+            </button>
+          </form>
+        )}
 
         <button
           onClick={() => {

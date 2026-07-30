@@ -111,6 +111,9 @@ export interface CartLine {
     subtotalAmount: MoneyV2;
     totalAmount: MoneyV2;
   };
+  discountAllocations?: {
+    discountedAmount: MoneyV2;
+  }[];
 }
 
 export interface Cart {
@@ -124,6 +127,7 @@ export interface Cart {
   cost: {
     subtotalAmount: MoneyV2;
     totalAmount: MoneyV2;
+    checkoutChargeAmount?: MoneyV2 | null;
     totalTaxAmount?: MoneyV2 | null;
   };
   discountCodes?: { code: string; applicable: boolean }[];
