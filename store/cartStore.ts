@@ -10,6 +10,10 @@ interface CartState {
   cost: Cart["cost"] | null;
   discountCodes: Cart["discountCodes"];
   isOpen: boolean;
+  customerPhone: string;
+  customerName: string;
+  setCustomerPhone: (phone: string) => void;
+  setCustomerName: (name: string) => void;
   setCart: (cart: Cart) => void;
   setCartId: (id: string | null) => void;
   setLines: (lines: CartLine[]) => void;
@@ -30,6 +34,10 @@ export const useCartStore = create<CartState>()(
       cost: null,
       discountCodes: [],
       isOpen: false,
+      customerPhone: "",
+      customerName: "",
+      setCustomerPhone: (customerPhone) => set({ customerPhone }),
+      setCustomerName: (customerName) => set({ customerName }),
       setCart: (cart) =>
         set({ 
           cartId: cart.id, 
@@ -45,8 +53,15 @@ export const useCartStore = create<CartState>()(
       openDrawer: () => set({ isOpen: true }),
       closeDrawer: () => set({ isOpen: false }),
       toggleDrawer: () => set((s) => ({ isOpen: !s.isOpen })),
-      reset: () => set({ cartId: null, checkoutUrl: null, totalQuantity: 0, lines: [], cost: null, discountCodes: [], isOpen: false }),
+      reset: () => set({ cartId: null, checkoutUrl: null, totalQuantity: 0, lines: [], cost: null, discountCodes: [], isOpen: false, customerPhone: "", customerName: "" }),
     }),
-    { name: "elfangary-cart", partialize: (s) => ({ cartId: s.cartId }) }
+    { 
+      name: "elfangary-cart", 
+      partialize: (s) => ({ 
+        cartId: s.cartId,
+        customerPhone: s.customerPhone,
+        customerName: s.customerName 
+      }) 
+    }
   )
 );

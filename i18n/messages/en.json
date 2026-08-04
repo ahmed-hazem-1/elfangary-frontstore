@@ -112,7 +112,12 @@
     "continueShopping": "Continue shopping",
     "summary": "Order summary",
     "removeItem": "Remove item",
-    "yourCart": "Your cart"
+    "yourCart": "Your cart",
+    "saveToWhatsApp": "Save cart & send link to your WhatsApp",
+    "phonePlaceholder": "WhatsApp number (+966...)",
+    "sendCartLink": "Save & Send",
+    "cartSentSuccess": "Cart saved and recovery link prepared successfully!",
+    "cartSavedNotice": "Your cart is saved! You can return to it anytime."
   },
   "Search": {
     "title": "Search results",

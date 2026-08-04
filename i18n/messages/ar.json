@@ -112,7 +112,12 @@
     "continueShopping": "متابعة التسوق",
     "summary": "ملخص الطلب",
     "removeItem": "إزالة المنتج",
-    "yourCart": "سلتك"
+    "yourCart": "سلتك",
+    "saveToWhatsApp": "احفظ السلة وأرسلها لرقمك على الواتساب",
+    "phonePlaceholder": "رقم الواتساب (مثال: +966...)",
+    "sendCartLink": "حفظ وإرسال",
+    "cartSentSuccess": "تم حفظ السلة وتجهيز رابط الاسترجاع بنجاح!",
+    "cartSavedNotice": "تم حفظ سلتك! يمكنك العودة إليها في أي وقت."
   },
   "Search": {
     "title": "نتائج البحث",
