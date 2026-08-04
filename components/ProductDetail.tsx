@@ -13,6 +13,7 @@ import VariantSelector from "./VariantSelector";
 import { useAddToCart } from "./AddToCartClient";
 import { buyNowAction } from "@/app/actions/cart";
 import { useCartStore } from "@/store/cartStore";
+import WishlistButton from "./WishlistButton";
 
 export default function ProductDetail({
   product,
@@ -90,7 +91,7 @@ export default function ProductDetail({
 
   return (
     <div className="grid gap-10 lg:grid-cols-2">
-      <ProductGallery images={galleryImages} title={product.title} />
+      <ProductGallery images={galleryImages} title={product.title} product={product} />
 
       <div className="flex flex-col">
         {product.vendor && <p className="text-sm font-medium text-ink-muted">{labels.vendor}: {product.vendor}</p>}
@@ -135,6 +136,11 @@ export default function ProductDetail({
           >
             {labels.buyNow}
           </button>
+          <WishlistButton
+            product={product}
+            variant="button"
+            className="w-full sm:w-auto"
+          />
         </div>
 
         <div

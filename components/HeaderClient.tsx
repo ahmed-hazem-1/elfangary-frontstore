@@ -4,8 +4,9 @@ import { useState, useEffect, useRef, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Menu, Search, ShoppingBag, User, Loader2 } from "lucide-react";
+import { Menu, Search, ShoppingBag, User, Heart, Loader2 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import { useWishlistStore } from "@/store/wishlistStore";
 import LocaleSwitcher from "./LocaleSwitcher";
 import Logo from "./Logo";
 import type { Locale } from "@/i18n/routing";
@@ -30,7 +31,7 @@ export default function HeaderClient({
   brand: string;
   brandLatin: string;
   nav: NavItem[];
-  labels: { account: string; cart: string; search: string; searchPlaceholder: string };
+  labels: { account: string; cart: string; wishlist?: string; search: string; searchPlaceholder: string };
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [q, setQ] = useState("");
@@ -43,6 +44,8 @@ export default function HeaderClient({
   
   const totalQuantity = useCartStore((s) => s.totalQuantity);
   const openDrawer = useCartStore((s) => s.openDrawer);
+  const wishlistItems = useWishlistStore((s) => s.items);
+  const wishlistCount = wishlistItems.length;
   const router = useRouter();
 
   useEffect(() => setMounted(true), []);
@@ -181,6 +184,19 @@ export default function HeaderClient({
           </div>
 
           <Link
+            href={localePath(locale, "wishlist")}
+            className="btn-ghost relative h-7 w-7 sm:h-8 sm:w-8 p-0"
+            aria-label={labels.wishlist || "Wishlist"}
+          >
+            <Heart className="h-4 w-4" />
+            {mounted && wishlistCount > 0 && (
+              <span className="absolute -end-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-orange px-1 text-[9px] font-bold text-white animate-in zoom-in">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
+
+          <Link
             href={`${locale === "en" ? "/en" : ""}/account`}
             className="btn-ghost h-7 w-7 sm:h-8 sm:w-8 p-0"
             aria-label={labels.account}
@@ -239,6 +255,21 @@ export default function HeaderClient({
               {item.title}
             </Link>
           ))}
+          <Link
+            href={localePath(locale, "wishlist")}
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center justify-between rounded-btn px-2 py-2 text-sm font-medium hover:bg-ink-dark/5"
+          >
+            <span className="flex items-center gap-2">
+              <Heart className="h-4 w-4" />
+              {labels.wishlist || (locale === "ar" ? "المفضلة" : "Wishlist")}
+            </span>
+            {mounted && wishlistCount > 0 && (
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-orange px-1.5 text-xs font-bold text-white">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
           <div className="pt-2 sm:hidden">
             <LocaleSwitcher />
           </div>

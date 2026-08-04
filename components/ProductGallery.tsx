@@ -2,13 +2,23 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import type { Product } from "@/types/shopify";
+import WishlistButton from "./WishlistButton";
 
 export interface GalleryImage {
   url: string;
   altText?: string | null;
 }
 
-export default function ProductGallery({ images, title }: { images: GalleryImage[]; title: string }) {
+export default function ProductGallery({
+  images,
+  title,
+  product,
+}: {
+  images: GalleryImage[];
+  title: string;
+  product?: Product;
+}) {
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState(false);
   if (!images.length) {
@@ -30,6 +40,9 @@ export default function ProductGallery({ images, title }: { images: GalleryImage
           sizes="(max-width: 1024px) 100vw, 50vw"
           className={`object-cover transition-transform duration-300 ease-buttery ${zoom ? "scale-110" : "scale-100"}`}
         />
+        {product && (
+          <WishlistButton product={product} variant="floating" className="end-3 top-3" />
+        )}
       </div>
       {images.length > 1 && (
         <div className="flex gap-2 overflow-x-auto snap-x pb-2 w-full">

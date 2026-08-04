@@ -37,6 +37,7 @@ export default async function Header({ locale }: { locale: Locale }) {
       labels={{
         account: t("account"),
         cart: t("cart"),
+        wishlist: t("wishlist"),
         search: t("search"),
         searchPlaceholder: tCommon("searchPlaceholder"),
       }}

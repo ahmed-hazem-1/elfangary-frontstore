@@ -1,1 +1,181 @@
-{"Nav": {"home": "الرئيسية", "shop": "المتجر", "ourHoney": "عسلنا", "benefits": "الفوائد", "reviews": "التقييمات", "faq": "الأسئلة الشائعة", "contact": "تواصل معنا", "account": "حسابي", "cart": "السلة", "search": "بحث"}, "Common": {"brand": "الفنجري", "brandLatin": "Elfangary", "loading": "جارٍ التحميل…", "addToCart": "أضف إلى السلة", "buyNow": "اشترِ الآن", "viewAll": "عرض الكل", "loadMore": "تحميل المزيد", "readMore": "اقرأ المزيد", "price": "السعر", "quantity": "الكمية", "subtotal": "المجموع الفرعي", "total": "الإجمالي", "discountCode": "كود الخصم", "apply": "تطبيق", "checkout": "إتمام الشراء", "remove": "إزالة", "empty": "لا توجد عناصر", "noResults": "لا توجد نتائج", "backHome": "العودة للرئيسية", "searchPlaceholder": "ابحث عن منتجات عسل…", "inStock": "متوفر", "outOfStock": "غير متوفر", "soldOut": "نفدت الكمية"}, "Hero": {"title": "الفنجري — عسل طبيعي بطابع فاخر.", "subtitle": "نقدّم عسلًا طبيعيًا مختارًا بعناية، بمذاق غني وجودة موثوقة ولمسة تعبّر عن الأصالة والرقي.", "ctaPrimary": "تسوق الآن", "ctaSecondary": "اكتشف منتجاتنا"}, "Trust": {"natural": "طبيعي 100%", "noAdditives": "بدون إضافات", "premium": "جودة فاخرة", "fastDelivery": "توصيل سريع", "labTested": "مختبري وموثوق"}, "Home": {"featuredCollections": "مجموعات مميزة", "bestSellers": "الأكثر مبيعًا", "brandStory": "قصتنا", "benefitsTitle": "لماذا عسل الفنجري؟", "testimonialsTitle": "ماذا يقول عملاؤنا", "newsletterTitle": "اشترك في نشرتنا", "newsletterText": "كن أول من يعرف عن المنتجات الجديدة والعروض الموسمية."}, "Shop": {"title": "كل المنتجات", "filters": "التصفية", "filterType": "النوع", "filterPrice": "السعر", "filterAvailability": "التوفر", "sort": "الترتيب", "sortFeatured": "مميز", "sortPriceLow": "السعر: من الأقل", "sortPriceHigh": "السعر: من الأعلى", "sortNewest": "الأحدث", "resultsCount": "{count} منتج"}, "Collection": {"products": "منتجات"}, "Product": {"description": "الوصف", "details": "التفاصيل", "shipping": "الشحن والإرجاع", "faqs": "الأسئلة الشائعة", "nutrition": "القيمة الغذائية", "origin": "المصدر", "season": "موسم الجني", "certifications": "الشهادات", "recommendations": "قد يعجبك أيضًا", "selectVariant": "اختر الخيار", "vendor": "البائع"}, "Cart": {"title": "سلة التسوق", "empty": "سلتك فارغة حاليًا.", "continueShopping": "متابعة التسوق", "summary": "ملخص الطلب", "removeItem": "إزالة المنتج", "yourCart": "سلتك"}, "Search": {"title": "نتائج البحث", "query": "البحث عن", "suggested": "مجموعات مقترحة", "noResults": "لم نجد منتجات تطابق بحثك."}, "About": {"title": "عن الفنجري", "values": "قيمنا", "certifications": "شهاداتنا"}, "Contact": {"title": "تواصل معنا", "name": "الاسم", "email": "البريد الإلكتروني", "message": "رسالتك", "send": "إرسال", "sent": "تم إرسال رسالتك. سنرد عليك قريبًا.", "storeInfo": "معلومات المتجر", "phone": "الهاتف", "address": "العنوان", "whatsapp": "واتساب"}, "Newsletter": {"emailPlaceholder": "بريدك الإلكتروني", "subscribe": "اشترك", "success": "تم اشتراكك بنجاح!", "error": "حدث خطأ، حاول مرة أخرى."}, "Account": {"login": "تسجيل الدخول", "register": "إنشاء حساب", "loginWithShopify": "المتابعة عبر حساب العميل", "loginDisabled": "حساب العميل غير مُهيّأ بعد. فعّل Customer Account API في Shopify.", "forgotPassword": "نسيت كلمة المرور؟", "createAccount": "إنشاء حساب جديد", "alreadyHave": "لديك حساب بالفعل؟", "dashboard": "لوحة الحساب", "profile": "الملف الشخصي", "orders": "الطلبات", "addresses": "العناوين", "signOut": "تسجيل الخروج", "orderHistory": "سجل الطلبات", "noOrders": "لا توجد طلبات بعد.", "welcome": "مرحبًا", "defaultAddress": "العنوان الافتراضي", "addAddress": "إضافة عنوان"}, "Footer": {"statement": "عسل طبيعي فاخر مختار بعناية من خيرة المناحل.", "followUs": "تابعنا", "storeInfo": "معلومات المتجر", "paymentReassurance": "دفع آمن وتوصيل سريع لكل الطلبات.", "rights": "جميع الحقوق محفوظة."}, "Errors": {"notConfigured": "متجر Shopify غير مُهيّأ. عيّن متغيرات البيئة لتفعيل المحتوى.", "generic": "حدث خطأ غير متوقع. حاول مرة أخرى."}, "NotFound": {"title": "الصفحة غير موجودة", "text": "عذرًا، لم نتمكن من العثور على هذه الصفحة.", "search": "ابحث عن شيء آخر"}}
+{
+  "Nav": {
+    "home": "الرئيسية",
+    "shop": "المتجر",
+    "ourHoney": "عسلنا",
+    "benefits": "الفوائد",
+    "reviews": "التقييمات",
+    "faq": "الأسئلة الشائعة",
+    "contact": "تواصل معنا",
+    "account": "حسابي",
+    "cart": "السلة",
+    "wishlist": "المفضلة",
+    "search": "بحث"
+  },
+  "Common": {
+    "brand": "الفنجري",
+    "brandLatin": "Elfangary",
+    "loading": "جارٍ التحميل…",
+    "addToCart": "أضف إلى السلة",
+    "buyNow": "اشترِ الآن",
+    "viewAll": "عرض الكل",
+    "loadMore": "تحميل المزيد",
+    "readMore": "اقرأ المزيد",
+    "price": "السعر",
+    "quantity": "الكمية",
+    "subtotal": "المجموع الفرعي",
+    "total": "الإجمالي",
+    "discountCode": "كود الخصم",
+    "apply": "تطبيق",
+    "checkout": "إتمام الشراء",
+    "remove": "إزالة",
+    "empty": "لا توجد عناصر",
+    "noResults": "لا توجد نتائج",
+    "backHome": "العودة للرئيسية",
+    "searchPlaceholder": "ابحث عن منتجات عسل…",
+    "inStock": "متوفر",
+    "outOfStock": "غير متوفر",
+    "soldOut": "نفدت الكمية"
+  },
+  "Hero": {
+    "title": "الفنجري — عسل طبيعي بطابع فاخر.",
+    "subtitle": "نقدّم عسلًا طبيعيًا مختارًا بعناية، بمذاق غني وجودة موثوقة ولمسة تعبّر عن الأصالة والرقي.",
+    "ctaPrimary": "تسوق الآن",
+    "ctaSecondary": "اكتشف منتجاتنا"
+  },
+  "Trust": {
+    "natural": "طبيعي 100%",
+    "noAdditives": "بدون إضافات",
+    "premium": "جودة فاخرة",
+    "fastDelivery": "توصيل سريع",
+    "labTested": "مختبري وموثوق"
+  },
+  "Home": {
+    "featuredCollections": "مجموعات مميزة",
+    "bestSellers": "الأكثر مبيعًا",
+    "brandStory": "قصتنا",
+    "benefitsTitle": "لماذا عسل الفنجري؟",
+    "testimonialsTitle": "ماذا يقول عملاؤنا",
+    "newsletterTitle": "اشترك في نشرتنا",
+    "newsletterText": "كن أول من يعرف عن المنتجات الجديدة والعروض الموسمية."
+  },
+  "Shop": {
+    "title": "كل المنتجات",
+    "filters": "التصفية",
+    "filterType": "النوع",
+    "filterPrice": "السعر",
+    "filterAvailability": "التوفر",
+    "sort": "الترتيب",
+    "sortFeatured": "مميز",
+    "sortPriceLow": "السعر: من الأقل",
+    "sortPriceHigh": "السعر: من الأعلى",
+    "sortNewest": "الأحدث",
+    "resultsCount": "{count} منتج"
+  },
+  "Collection": {
+    "products": "منتجات"
+  },
+  "Product": {
+    "description": "الوصف",
+    "details": "التفاصيل",
+    "shipping": "الشحن والإرجاع",
+    "faqs": "الأسئلة الشائعة",
+    "nutrition": "القيمة الغذائية",
+    "origin": "المصدر",
+    "season": "موسم الجني",
+    "certifications": "الشهادات",
+    "recommendations": "قد يعجبك أيضًا",
+    "selectVariant": "اختر الخيار",
+    "vendor": "البائع"
+  },
+  "Wishlist": {
+    "title": "قائمة المفضلة",
+    "emptyTitle": "قائمتك المفضلة فارغة",
+    "emptySubtitle": "لم تقم بإضافة أي منتجات إلى قائمة رغباتك بعد. استكشف تشكيلة العسل الفاخر واضغط على زر الإعجاب لحفظ ما يعجبك!",
+    "exploreShop": "استكشف المنتجات",
+    "added": "تمت إضافة المنتج إلى المفضلة",
+    "removed": "تمت إزالة المنتج من المفضلة",
+    "addToWishlist": "إضافة للمفضلة",
+    "inWishlist": "في المفضلة",
+    "moveToCart": "نقل إلى السلة",
+    "moveAllToCart": "إضافة الكل إلى السلة",
+    "allMovedToCart": "تمت إضافة جميع المنتجات المتوفرة إلى السلة",
+    "clearAll": "إفراغ القائمة",
+    "confirmClear": "هل أنت متأكد من رغبتك في إفراغ قائمة المفضلة؟",
+    "itemsCount": "{count} منتج في المفضلة",
+    "shareWishlist": "مشاركة المفضلة",
+    "copiedLink": "تم نسخ رابط المفضلة"
+  },
+  "Cart": {
+    "title": "سلة التسوق",
+    "empty": "سلتك فارغة حاليًا.",
+    "continueShopping": "متابعة التسوق",
+    "summary": "ملخص الطلب",
+    "removeItem": "إزالة المنتج",
+    "yourCart": "سلتك"
+  },
+  "Search": {
+    "title": "نتائج البحث",
+    "query": "البحث عن",
+    "suggested": "مجموعات مقترحة",
+    "noResults": "لم نجد منتجات تطابق بحثك."
+  },
+  "About": {
+    "title": "عن الفنجري",
+    "values": "قيمنا",
+    "certifications": "شهاداتنا"
+  },
+  "Contact": {
+    "title": "تواصل معنا",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "message": "رسالتك",
+    "send": "إرسال",
+    "sent": "تم إرسال رسالتك. سنرد عليك قريبًا.",
+    "storeInfo": "معلومات المتجر",
+    "phone": "الهاتف",
+    "address": "العنوان",
+    "whatsapp": "واتساب"
+  },
+  "Newsletter": {
+    "emailPlaceholder": "بريدك الإلكتروني",
+    "subscribe": "اشترك",
+    "success": "تم اشتراكك بنجاح!",
+    "error": "حدث خطأ، حاول مرة أخرى."
+  },
+  "Account": {
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "loginWithShopify": "المتابعة عبر حساب العميل",
+    "loginDisabled": "حساب العميل غير مُهيّأ بعد. فعّل Customer Account API في Shopify.",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "createAccount": "إنشاء حساب جديد",
+    "alreadyHave": "لديك حساب بالفعل؟",
+    "dashboard": "لوحة الحساب",
+    "profile": "الملف الشخصي",
+    "orders": "الطلبات",
+    "addresses": "العناوين",
+    "signOut": "تسجيل الخروج",
+    "orderHistory": "سجل الطلبات",
+    "noOrders": "لا توجد طلبات بعد.",
+    "welcome": "مرحبًا",
+    "defaultAddress": "العنوان الافتراضي",
+    "addAddress": "إضافة عنوان"
+  },
+  "Footer": {
+    "statement": "عسل طبيعي فاخر مختار بعناية من خيرة المناحل.",
+    "followUs": "تابعنا",
+    "storeInfo": "معلومات المتجر",
+    "paymentReassurance": "دفع آمن وتوصيل سريع لكل الطلبات.",
+    "rights": "جميع الحقوق محفوظة."
+  },
+  "Errors": {
+    "notConfigured": "متجر Shopify غير مُهيّأ. عيّن متغيرات البيئة لتفعيل المحتوى.",
+    "generic": "حدث خطأ غير متوقع. حاول مرة أخرى."
+  },
+  "NotFound": {
+    "title": "الصفحة غير موجودة",
+    "text": "عذرًا، لم نتمكن من العثور على هذه الصفحة.",
+    "search": "ابحث عن شيء آخر"
+  }
+}

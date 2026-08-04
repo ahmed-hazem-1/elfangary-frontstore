@@ -9,6 +9,7 @@ import { localePath } from "@/lib/utils/urls";
 import type { Locale } from "@/i18n/routing";
 import { useCartStore } from "@/store/cartStore";
 import { addToCartAction, updateLineAction, removeLineAction } from "@/app/actions/cart";
+import WishlistButton from "@/components/WishlistButton";
 export default function ProductCard({ product, locale, labels }: {
   product: Product;
   locale: Locale;
@@ -111,13 +112,22 @@ export default function ProductCard({ product, locale, labels }: {
         </div>
 
         {product.tags?.includes("best-seller") && (
-          <span className="absolute start-3 top-3 pill bg-gradient-to-r from-brand-orange to-brand-olive shadow-sm text-white border-0 backdrop-blur-md">
+          <span className="absolute start-3 top-3 pill bg-gradient-to-r from-brand-orange to-brand-olive shadow-sm text-white border-0 backdrop-blur-md z-20">
             <Star className="h-3.5 w-3.5 fill-white" /> {labels.soldOut === "Sold out" ? "Best Seller" : "الأكثر مبيعًا"}
           </span>
         )}
         {!product.availableForSale && (
-          <span className="absolute end-3 top-3 pill bg-ink-dark/70 text-white border-0">{labels.soldOut}</span>
+          <span className={`absolute ${product.tags?.includes("best-seller") ? "start-3 top-11" : "start-3 top-3"} pill bg-ink-dark/70 text-white border-0 z-20`}>
+            {labels.soldOut}
+          </span>
         )}
+
+        {/* Love / Wishlist Button */}
+        <WishlistButton
+          product={product}
+          variant="floating"
+          className="end-3 top-3"
+        />
       </div>
 
       <div className="flex flex-col flex-1 justify-between p-3.5 sm:p-4 gap-2.5">
