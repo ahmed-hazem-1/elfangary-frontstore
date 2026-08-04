@@ -58,7 +58,7 @@ export default function WishlistPageClient({
     );
   }
 
-  const handleMoveToCart = async (item: WishlistItem) => {
+  const handleAddToCart = async (item: WishlistItem) => {
     if (!item.variantId) {
       toast.error(labels.soldOut);
       return;
@@ -69,7 +69,6 @@ export default function WishlistPageClient({
       const updatedCart = await addToCartAction(item.variantId, 1);
       if (updatedCart) {
         setCart(updatedCart);
-        removeItem(item.id);
         toast.success(labels.moveToCart + " ✓");
         openDrawer();
       }
@@ -81,7 +80,7 @@ export default function WishlistPageClient({
     }
   };
 
-  const handleMoveAllToCart = async () => {
+  const handleAddAllToCart = async () => {
     if (!items.length) return;
     setIsMovingAll(true);
     try {
@@ -91,7 +90,6 @@ export default function WishlistPageClient({
           if (updated) setCart(updated);
         }
       }
-      clearWishlist();
       toast.success(labels.allMovedToCart || "تمت إضافة جميع المنتجات للسلة");
       openDrawer();
     } catch (err) {
@@ -166,7 +164,7 @@ export default function WishlistPageClient({
           </button>
 
           <button
-            onClick={handleMoveAllToCart}
+            onClick={handleAddAllToCart}
             disabled={isMovingAll}
             className="btn-primary h-10 px-4 sm:px-5 text-xs sm:text-sm flex items-center gap-2 shadow-sm"
           >
@@ -265,7 +263,7 @@ export default function WishlistPageClient({
 
                 <div className="mt-4 pt-2 border-t border-ink-dark/5 flex gap-2">
                   <button
-                    onClick={() => handleMoveToCart(item)}
+                    onClick={() => handleAddToCart(item)}
                     disabled={!item.availableForSale || pendingId === item.id}
                     className="btn-primary flex-1 h-9 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 shadow-sm"
                   >
