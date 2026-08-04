@@ -91,8 +91,43 @@ export default function ProductDetail({
 
   return (
     <div className="grid gap-10 lg:grid-cols-2">
-      <ProductGallery images={galleryImages} title={product.title} product={product} />
+      {/* Image Gallery Column with Action Controls Underneath */}
+      <div className="flex flex-col gap-4">
+        <ProductGallery images={galleryImages} title={product.title} product={product} />
 
+        {/* 2-line Action Controls under the product image */}
+        <div className="flex flex-col gap-3 pt-2">
+          {/* Line 1: Numbers (QuantityStepper) + Add to Cart */}
+          <div className="flex items-center gap-3">
+            <QuantityStepper value={qty} onChange={setQty} />
+            <button
+              onClick={handleAdd}
+              disabled={pending || !selectedVariant?.availableForSale}
+              className="btn-primary flex-1 h-11 text-sm sm:text-base font-semibold shadow-sm flex items-center justify-center gap-2"
+            >
+              <span>{labels.addToCart}</span>
+            </button>
+          </div>
+
+          {/* Line 2: Buy Now + Love (Wishlist) */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleBuyNow}
+              disabled={buying || !selectedVariant?.availableForSale}
+              className="btn-secondary flex-1 h-11 text-sm sm:text-base font-semibold flex items-center justify-center gap-2"
+            >
+              <span>{labels.buyNow}</span>
+            </button>
+            <WishlistButton
+              product={product}
+              variant="button"
+              className="flex-1 h-11 text-sm sm:text-base"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Product Details & Description Column */}
       <div className="flex flex-col">
         {product.vendor && <p className="text-sm font-medium text-ink-muted">{labels.vendor}: {product.vendor}</p>}
         <h1 className="mt-1 text-2xl font-bold text-ink-dark sm:text-3xl lg:text-4xl">{product.title}</h1>
@@ -118,33 +153,8 @@ export default function ProductDetail({
           </div>
         )}
 
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-          <div className="self-start sm:self-auto">
-            <QuantityStepper value={qty} onChange={setQty} />
-          </div>
-          <button
-            onClick={handleAdd}
-            disabled={pending || !selectedVariant?.availableForSale}
-            className="btn-primary w-full sm:w-auto sm:flex-1"
-          >
-            {labels.addToCart}
-          </button>
-          <button
-            onClick={handleBuyNow}
-            disabled={buying || !selectedVariant?.availableForSale}
-            className="btn-secondary w-full sm:w-auto sm:flex-1"
-          >
-            {labels.buyNow}
-          </button>
-          <WishlistButton
-            product={product}
-            variant="button"
-            className="w-full sm:w-auto"
-          />
-        </div>
-
         <div
-          className="prose prose-sm mt-8 max-w-none text-ink-muted"
+          className="prose prose-sm mt-8 max-w-none text-ink-muted leading-relaxed"
           dangerouslySetInnerHTML={{ __html: product.descriptionHtml || product.description }}
         />
       </div>
