@@ -1,1 +1,167 @@
-{"Nav": {"home": "Home", "shop": "Shop", "ourHoney": "Our Honey", "benefits": "Benefits", "reviews": "Reviews", "faq": "FAQ", "contact": "Contact", "account": "Account", "cart": "Cart", "search": "Search"}, "Common": {"brand": "الفنجري", "brandLatin": "Elfangary", "loading": "Loading…", "addToCart": "Add to Cart", "buyNow": "Buy It Now", "viewAll": "View all", "loadMore": "Load more", "readMore": "Read more", "price": "Price", "quantity": "Quantity", "subtotal": "Subtotal", "total": "Total", "discountCode": "Discount code", "apply": "Apply", "checkout": "Checkout", "remove": "Remove", "empty": "No items", "noResults": "No results", "backHome": "Back home", "searchPlaceholder": "Search honey products…", "inStock": "In stock", "outOfStock": "Out of stock", "soldOut": "Sold out"}, "Hero": {"title": "Elfangary — Premium Natural Honey.", "subtitle": "Carefully selected natural honey with rich flavor, trusted quality, and a smooth premium presentation.", "ctaPrimary": "Shop Now", "ctaSecondary": "Explore Collection"}, "Trust": {"natural": "100% Natural", "noAdditives": "No Additives", "premium": "Premium Quality", "fastDelivery": "Fast Delivery", "labTested": "Lab Tested"}, "Home": {"featuredCollections": "Featured Collections", "bestSellers": "Best Sellers", "brandStory": "Our Story", "benefitsTitle": "Why Elfangary Honey?", "testimonialsTitle": "What our customers say", "newsletterTitle": "Join our newsletter", "newsletterText": "Be the first to know about new products and seasonal offers."}, "Shop": {"title": "All Products", "filters": "Filters", "filterType": "Type", "filterPrice": "Price", "filterAvailability": "Availability", "sort": "Sort", "sortFeatured": "Featured", "sortPriceLow": "Price: Low to High", "sortPriceHigh": "Price: High to Low", "sortNewest": "Newest", "resultsCount": "{count} products"}, "Collection": {"products": "products"}, "Product": {"description": "Description", "details": "Details", "shipping": "Shipping & Returns", "faqs": "FAQ", "nutrition": "Nutrition", "origin": "Origin", "season": "Harvest season", "certifications": "Certifications", "recommendations": "You may also like", "selectVariant": "Select option", "vendor": "Vendor"}, "Cart": {"title": "Shopping Cart", "empty": "Your cart is currently empty.", "continueShopping": "Continue shopping", "summary": "Order summary", "removeItem": "Remove item", "yourCart": "Your cart"}, "Search": {"title": "Search results", "query": "Search for", "suggested": "Suggested collections", "noResults": "We couldn't find products matching your search."}, "About": {"title": "About Elfangary", "values": "Our values", "certifications": "Our certifications"}, "Contact": {"title": "Contact us", "name": "Name", "email": "Email", "message": "Your message", "send": "Send", "sent": "Your message has been sent. We'll get back to you soon.", "storeInfo": "Store info", "phone": "Phone", "address": "Address", "whatsapp": "WhatsApp"}, "Newsletter": {"emailPlaceholder": "Your email", "subscribe": "Subscribe", "success": "Subscribed successfully!", "error": "Something went wrong, try again."}, "Account": {"login": "Sign in", "register": "Create account", "loginWithShopify": "Continue with customer account", "loginDisabled": "Customer accounts aren't configured yet. Enable the Customer Account API in Shopify.", "forgotPassword": "Forgot password?", "createAccount": "Create a new account", "alreadyHave": "Already have an account?", "dashboard": "Account dashboard", "profile": "Profile", "orders": "Orders", "addresses": "Addresses", "signOut": "Sign out", "orderHistory": "Order history", "noOrders": "No orders yet.", "welcome": "Welcome", "defaultAddress": "Default address", "addAddress": "Add address"}, "Footer": {"statement": "Premium natural honey carefully selected from the finest apiaries.", "followUs": "Follow us", "storeInfo": "Store info", "paymentReassurance": "Secure checkout and fast delivery on every order.", "rights": "All rights reserved."}, "Errors": {"notConfigured": "Shopify store isn't configured. Set environment variables to enable content.", "generic": "An unexpected error occurred. Please try again."}, "NotFound": {"title": "Page not found", "text": "Sorry, we couldn't find this page.", "search": "Search for something else"}}
+{
+  "Nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "ourHoney": "Our Honey",
+    "benefits": "Benefits",
+    "reviews": "Reviews",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "account": "Account",
+    "cart": "Cart",
+    "search": "Search"
+  },
+  "Common": {
+    "brand": "الفنجري",
+    "brandLatin": "Elfangary",
+    "loading": "Loading…",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy It Now",
+    "viewAll": "View all",
+    "loadMore": "Load more",
+    "readMore": "Read more",
+    "price": "Price",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "discountCode": "Discount code",
+    "apply": "Apply",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "empty": "No items",
+    "noResults": "No results",
+    "backHome": "Back home",
+    "searchPlaceholder": "Search honey products…",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "soldOut": "Sold out"
+  },
+  "Hero": {
+    "title": "Elfangary — Premium Natural Honey.",
+    "subtitle": "Carefully selected natural honey with rich flavor, trusted quality, and a smooth premium presentation.",
+    "ctaPrimary": "Shop Now",
+    "ctaSecondary": "Explore Collection"
+  },
+  "Trust": {
+    "natural": "100% Natural",
+    "noAdditives": "No Additives",
+    "premium": "Premium Quality",
+    "fastDelivery": "Fast Delivery",
+    "labTested": "Lab Tested"
+  },
+  "Home": {
+    "featuredCollections": "Featured Collections",
+    "bestSellers": "Best Sellers",
+    "brandStory": "Our Story",
+    "benefitsTitle": "Why Elfangary Honey?",
+    "testimonialsTitle": "What our customers say",
+    "newsletterTitle": "Join our newsletter",
+    "newsletterText": "Be the first to know about new products and seasonal offers."
+  },
+  "Shop": {
+    "title": "All Products",
+    "filters": "Filters",
+    "filterType": "Type",
+    "filterPrice": "Price",
+    "filterAvailability": "Availability",
+    "sort": "Sort",
+    "sortFeatured": "Featured",
+    "sortPriceLow": "Price: Low to High",
+    "sortPriceHigh": "Price: High to Low",
+    "sortNewest": "Newest",
+    "resultsCount": "{count} products"
+  },
+  "Collection": {
+    "products": "products"
+  },
+  "Product": {
+    "description": "Description",
+    "details": "Details",
+    "shipping": "Shipping & Returns",
+    "faqs": "FAQ",
+    "nutrition": "Nutrition",
+    "origin": "Origin",
+    "season": "Harvest season",
+    "certifications": "Certifications",
+    "recommendations": "You may also like",
+    "selectVariant": "Select option",
+    "vendor": "Vendor"
+  },
+  "Cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is currently empty.",
+    "continueShopping": "Continue shopping",
+    "summary": "Order summary",
+    "removeItem": "Remove item",
+    "yourCart": "Your cart",
+    "saveToWhatsApp": "Save cart & send link to your WhatsApp",
+    "phonePlaceholder": "WhatsApp number (+966...)",
+    "sendCartLink": "Save & Send",
+    "cartSentSuccess": "Cart saved and recovery link prepared successfully!",
+    "cartSavedNotice": "Your cart is saved! You can return to it anytime."
+  },
+  "Search": {
+    "title": "Search results",
+    "query": "Search for",
+    "suggested": "Suggested collections",
+    "noResults": "We couldn't find products matching your search."
+  },
+  "About": {
+    "title": "About Elfangary",
+    "values": "Our values",
+    "certifications": "Our certifications"
+  },
+  "Contact": {
+    "title": "Contact us",
+    "name": "Name",
+    "email": "Email",
+    "message": "Your message",
+    "send": "Send",
+    "sent": "Your message has been sent. We'll get back to you soon.",
+    "storeInfo": "Store info",
+    "phone": "Phone",
+    "address": "Address",
+    "whatsapp": "WhatsApp"
+  },
+  "Newsletter": {
+    "emailPlaceholder": "Your email",
+    "subscribe": "Subscribe",
+    "success": "Subscribed successfully!",
+    "error": "Something went wrong, try again."
+  },
+  "Account": {
+    "login": "Sign in",
+    "register": "Create account",
+    "loginWithShopify": "Continue with customer account",
+    "loginDisabled": "Customer accounts aren't configured yet. Enable the Customer Account API in Shopify.",
+    "forgotPassword": "Forgot password?",
+    "createAccount": "Create a new account",
+    "alreadyHave": "Already have an account?",
+    "dashboard": "Account dashboard",
+    "profile": "Profile",
+    "orders": "Orders",
+    "addresses": "Addresses",
+    "signOut": "Sign out",
+    "orderHistory": "Order history",
+    "noOrders": "No orders yet.",
+    "welcome": "Welcome",
+    "defaultAddress": "Default address",
+    "addAddress": "Add address"
+  },
+  "Footer": {
+    "statement": "Premium natural honey carefully selected from the finest apiaries.",
+    "followUs": "Follow us",
+    "storeInfo": "Store info",
+    "paymentReassurance": "Secure checkout and fast delivery on every order.",
+    "rights": "All rights reserved."
+  },
+  "Errors": {
+    "notConfigured": "Shopify store isn't configured. Set environment variables to enable content.",
+    "generic": "An unexpected error occurred. Please try again."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "text": "Sorry, we couldn't find this page.",
+    "search": "Search for something else"
+  }
+}

@@ -8,6 +8,7 @@ import { useShallow } from "zustand/react/shallow";
 import { useCartStore } from "@/store/cartStore";
 import { updateLineAction, removeLineAction, applyDiscountCodeAction, removeDiscountCodeAction } from "@/app/actions/cart";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
+import SaveCartToWhatsApp from "./SaveCartToWhatsApp";
 
 export default function CartDrawerInner({ locale, labels }: {
   locale: string;
@@ -245,6 +246,11 @@ export default function CartDrawerInner({ locale, labels }: {
             </button>
           </form>
         )}
+
+        {/* Save Cart via WhatsApp */}
+        <div className="mb-4">
+          <SaveCartToWhatsApp locale={locale} />
+        </div>
 
         <button
           onClick={() => {

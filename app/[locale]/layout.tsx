@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import CartProvider from "@/components/CartProvider";
 import CartDrawerClient from "@/components/CartDrawerClient";
 import FloatingCartSummary from "@/components/FloatingCartSummary";
+import AbandonedCartTracker from "@/components/AbandonedCartTracker";
 
 const arabicFont = Tajawal({
   subsets: ["arabic"],
@@ -63,6 +64,7 @@ export default async function LocaleLayout({
             </div>
             <CartDrawerClient />
             <FloatingCartSummary />
+            <AbandonedCartTracker locale={active} />
             <Toaster position="top-center" dir={dir} />
           </CartProvider>
         </NextIntlClientProvider>

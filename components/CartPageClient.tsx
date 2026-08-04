@@ -10,6 +10,7 @@ import { useShallow } from "zustand/react/shallow";
 import { useCartStore } from "@/store/cartStore";
 import { updateLineAction, removeLineAction, applyDiscountCodeAction } from "@/app/actions/cart";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
+import SaveCartToWhatsApp from "./SaveCartToWhatsApp";
 
 export default function CartPageClient({ labels }: {
   labels: {
@@ -191,12 +192,17 @@ export default function CartPageClient({ labels }: {
             />
             <button type="submit" className="btn-secondary h-10" disabled={pending}>{labels.apply}</button>
           </form>
+          {/* Save Cart via WhatsApp */}
+          <div className="mt-4">
+            <SaveCartToWhatsApp locale={locale} />
+          </div>
+
           <button
             onClick={() => {
               if (checkoutUrl) window.location.href = checkoutUrl;
             }}
             disabled={pending || !checkoutUrl}
-            className="btn-primary mt-5 w-full"
+            className="btn-primary mt-4 w-full"
           >
             {labels.checkout}
           </button>
